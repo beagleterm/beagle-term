@@ -1,0 +1,25 @@
+{
+  "minimum_chrome_version": "18",
+  "manifest_version": 2,
+  "name": "Beagle Term",
+  "version": "1.0.0",
+  "default_locale": "en",
+  "icons": {
+    "128": "images/vt-128.png",
+    "48": "images/vt-48.png",
+    "32": "images/vt-32.png",
+    "16": "images/vt-16.png"
+  },
+  "description": "Serial terminal emulator.",
+  "offline_enabled": true,
+  "permissions": [
+    "clipboardRead",
+    "clipboardWrite",
+    "unlimitedStorage"
+  ],
+  "app": {
+    "background": {
+      "scripts": ["js/launcher.js"]
+    }
+  }
+}

@@ -31,7 +31,7 @@ lib.PreferenceManager = function(opt_prefix, opt_storage, opt_eventsource) {
     prefix += '/';
 
   this.prefix_ = prefix;
-  this.storage_ = opt_storage || window.localStorage;
+  this.storage_ = opt_storage/* || window.localStorage*/; // [TODO] Replace window.localStorage to chrome.storage.local.
   this.eventSource_ = opt_eventsource || window;
 
   this.prefDefs_ = {};
@@ -199,6 +199,7 @@ lib.PreferenceManager.prototype.setLater = function(key, value, opt_delay_ms) {
  * @param {string} key The preference to get.
  */
 lib.PreferenceManager.prototype.get = function(key) {
+  /*
   var rv = this.storage_.getItem(this.prefix_ + key);
   if (rv === null) {
     var prefDef = this.prefDefs_[key];
@@ -211,6 +212,15 @@ lib.PreferenceManager.prototype.get = function(key) {
   }
 
   return JSON.parse(rv);
+  */
+
+  var prefDef = this.prefDefs_[key];
+  if (!prefDef) {
+    console.warn('Request for unknown pref: ' + key);
+    return null;
+  }
+
+  return prefDef.defaultValue;
 };
 
 /**
