@@ -21,7 +21,7 @@ var serial_lib=(function() {
   
   var connectionInfo;
   var readListener;
-  var dataRead;
+  var bytesToRead=512;
   
   var logObj=function(obj) {
     console.log(obj);
@@ -45,16 +45,12 @@ var serial_lib=(function() {
       return;
     }
     if (readInfo && readInfo.bytesRead>0 && readInfo.data) {
-      var str=ab2str(readInfo.data);
-      if (str[str.length-1]==='\n') {
-        dataRead+=str.substring(0, str.length-1);
-        onRead(dataRead);
-        dataRead=""; 
-      } else {
-        dataRead+=str;
-      }
+      onRead(ab2str(readInfo.data));    
     }
-    chrome.serial.read(connectionInfo.connectionId, 1, onCharRead);
+
+    setTimeout(function() {
+      chrome.serial.read(connectionInfo.connectionId, bytesToRead, onCharRead);
+    }, 10);
   }
 
   var getPorts=function(callback) {

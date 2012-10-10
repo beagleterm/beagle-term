@@ -76,6 +76,17 @@ Beagle.prototype.run = function() {
     hterm.msg('WELCOME_VERSION', 
     ['\x1b[1m' + 'Beagle Term' + '\x1b[m', 
     '\x1b[1m' + 'BETA' + '\x1b[m']));
+
+  var self = this;
+  var port = '/dev/ttyUSB0';
+  serial_lib.openSerial(port, function(openInfo) {
+    self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
+
+    serial_lib.startListening(function(string) {
+      console.log('[onRead_] ' + string);
+      self.io.print(string);
+    });
+  });
 };
 
 /**
@@ -86,6 +97,21 @@ Beagle.prototype.run = function() {
 Beagle.prototype.sendString_ = function(string) {
   var row = JSON.stringify(string);
   console.log('[sendString] ' + row);
+
+  if (!serial_lib.isConnected()) {
+    return;
+  }
+
+  serial_lib.writeSerial(string);
+};
+
+/**
+ * Read a string from the connected device.
+ *
+ * @param {string} string The received string.
+ */
+Beagle.prototype.onRead_ = function(string) {
+  
 };
 
 /**
