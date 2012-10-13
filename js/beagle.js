@@ -79,7 +79,8 @@ Beagle.prototype.run = function() {
 
   var self = this;
   var port = '/dev/ttyUSB0';
-  serial_lib.openSerial(port, function(openInfo) {
+
+  serial_lib.openSerial(port, {bitrate: 115200}, function(openInfo) {
     self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
 
     serial_lib.startListening(function(string) {

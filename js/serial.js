@@ -57,8 +57,8 @@ var serial_lib=(function() {
     chrome.serial.getPorts(callback);
   };
   
-  var openSerial=function(serialPort, callback) {
-    chrome.serial.open(serialPort, function(cInfo) {
+  var openSerial=function(serialPort, options, callback) {    
+    chrome.serial.open(serialPort, options, function(cInfo) {
      onOpen(cInfo, callback)
     });
   };
