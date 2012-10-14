@@ -5,10 +5,8 @@
   "version": "1.0.0",
   "default_locale": "en",
   "icons": {
-    "128": "images/vt-128.png",
-    "48": "images/vt-48.png",
-    "32": "images/vt-32.png",
-    "16": "images/vt-16.png"
+    "128": "images/vt128.png",
+    "16": "images/vt16.png"
   },
   "description": "Serial terminal emulator.",
   "offline_enabled": true,
