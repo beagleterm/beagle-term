@@ -3,14 +3,14 @@
 
 * This application ..
 ----------------------
- * is Chrome packaged app.
- * Supports RS232(Serial)
- * Even supports VT100
+* is Chrome packaged app.
+* Supports RS232(Serial)
+* Even supports VT100
 
 * Environment
 -------------
 * Beagle Term runs on Google Chrome Canary Ver.24 and newer versions Or Chrome Dev(it's different with original chromium)
-* [[InstallBeagleTerm]]
+* [How to install Beagle Term](https://github.com/beagleterm/beagle-term/wiki/InstallBeagleTerm)
 
 * License
 ----------
@@ -18,5 +18,6 @@
 * Beagle Term also follow BSD license. 
 
 * TO DO LIST
+------------
 * fix grammertical mistake on my English document or comment or source code.
 * need to create dialogs showing information(for exmaple, connection ports..)
