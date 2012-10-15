@@ -95,7 +95,6 @@ var serial_lib=(function() {
     return String.fromCharCode.apply(null, unis);
   };
 
-
   var str2ab=function(str) {
     var buf=new ArrayBuffer(str.length);
     var bufView=new Uint8Array(buf);
@@ -104,7 +103,6 @@ var serial_lib=(function() {
     }
     return buf;
   }
- 
  
   var closeSerial=function(callback) {
    if (connectionInfo) {

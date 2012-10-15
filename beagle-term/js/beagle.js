@@ -24,6 +24,7 @@ window.onload = function() {
 function Beagle(argv) {
   this.argv_ = argv;
   this.io = null;
+  this.portInfo_ = null;
 };
 
 /**
@@ -40,20 +41,23 @@ Beagle.prototype.commandName = 'beagle';
  * This constructs a new Terminal instance.
  */
 Beagle.init = function() {
-  var profileName = lib.f.parseQuery(document.location.search)['profile'];
-  var terminal = new hterm.Terminal(profileName);
-  terminal.decorate(document.querySelector('#terminal'));
+  ConnectDialog.show(function(portInfo) {
+    var profileName = lib.f.parseQuery(document.location.search)['profile'];
+    var terminal = new hterm.Terminal(profileName);
+    terminal.decorate(document.querySelector('#terminal'));
 
-  // Useful for console debugging.
-  window.term_ = terminal;
+    // Useful for console debugging.
+    window.term_ = terminal;
 
-  // Looks like there is a race between this and terminal initialization, thus
-  // adding timeout.
-  setTimeout(function() {
+    // Looks like there is a race between this and terminal initialization, thus
+    // adding timeout.
+    setTimeout(function() {
       terminal.setCursorPosition(0, 0);
       terminal.setCursorVisible(true);
-      terminal.runCommandClass(Beagle, document.location.hash.substr(1));
+      terminal.runCommandClass(Beagle, JSON.stringify(portInfo))
     }, 500);
+  });
+
   return true;
 };
 
@@ -63,6 +67,7 @@ Beagle.init = function() {
  * This is invoked by the terminal as a result of terminal.runCommandClass().
  */
 Beagle.prototype.run = function() {
+  this.portInfo_ = JSON.parse(this.argv_.argString);
   this.io = this.argv_.io.push();
   this.io.onVTKeystroke = this.sendString_.bind(this);
   this.io.sendString = this.sendString_.bind(this);
@@ -77,10 +82,11 @@ Beagle.prototype.run = function() {
     ['\x1b[1m' + 'Beagle Term' + '\x1b[m', 
     '\x1b[1m' + 'BETA' + '\x1b[m']));
 
+  var port = this.portInfo_.port;
+  var bitrate = Number(this.portInfo_.bitrate);
   var self = this;
-  var port = '/dev/ttyUSB0';
 
-  serial_lib.openSerial(port, {bitrate: 115200}, function(openInfo) {
+  serial_lib.openSerial(port, {'bitrate': bitrate}, function(openInfo) {
     self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
 
     serial_lib.startListening(function(string) {
@@ -140,5 +146,6 @@ Beagle.prototype.exit = function(code) {
  * Closes beagle terminal.
  */
 Beagle.prototype.close_ = function() {
-
+  console.log('close_');
+  serial_lib.closeSerial(function(){});
 }
