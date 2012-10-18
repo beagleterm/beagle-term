@@ -7,6 +7,7 @@
 * is Chrome packaged app.
 * Supports RS232(Serial)
 * Even supports VT100
+* [Demo Video](http://youtu.be/V6lQcjd6fHs)
 
 * Environment
 -------------
