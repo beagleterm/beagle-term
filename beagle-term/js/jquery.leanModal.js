@@ -19,6 +19,10 @@
                
                 $(this).click(function(e) {
                     var modal_id = $(this).attr("href");
+
+                    $("#lean_overlay").click(function() { 
+                        close_modal(modal_id);
+                    });
                 
                     $(o.closeButton).click(function() {
                         close_modal(modal_id);

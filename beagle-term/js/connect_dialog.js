@@ -1,10 +1,13 @@
 'use strict';
 
+lib.rtdep('lib.f',
+          'hterm');
+
 var ConnectDialog = function() {};
 
 ConnectDialog.show = function(onComplete) {
   lib.ensureRuntimeDependencies();
-  $('a[rel*=leanModal]').leanModal({closeButton: '#connect'});
+  $('a[rel*=leanModal]').leanModal();
 
   var port = null;
   var bitrate = 9600;
@@ -27,7 +30,8 @@ ConnectDialog.show = function(onComplete) {
       $('#connect-dialog-trigger').click();
 
     } else {
-      console.log('Serial device not found. Please check your serial port.');
+    // Serial device not found.
+
     }
   });
 
@@ -38,5 +42,8 @@ ConnectDialog.show = function(onComplete) {
         bitrate: $bitratePicker.val()
       });
     }
+
+    // Close dialog
+    $('#lean_overlay').click();
   });
 };
