@@ -10,11 +10,11 @@ ConnectDialog.show = function(onComplete) {
   $('a[rel*=leanModal]').leanModal();
 
   var port = null;
-  var bitrate = 9600;	
+  var bitrate = 9600;
   var $portPicker = $('#port-picker');
   var $bitratePicker = $('#bitrate-picker');
 
-  // Build port picker 
+  // Build port picker
   serial_lib.getPorts(function(ports) {
     var eligiblePorts = ports.filter(function(port) {
       return !port.match(/[Bb]luetooth/);
@@ -33,7 +33,7 @@ ConnectDialog.show = function(onComplete) {
     // Serial device not found.
 
     }
-  });	
+  });
 
   $('#connect').click(function() {
     if (onComplete) {

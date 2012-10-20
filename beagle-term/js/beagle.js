@@ -71,15 +71,15 @@ Beagle.prototype.run = function() {
   this.io = this.argv_.io.push();
   this.io.onVTKeystroke = this.sendString_.bind(this);
   this.io.sendString = this.sendString_.bind(this);
-  this.io.onTerminalResize = this.onTerminalResize_.bind(this);  
+  this.io.onTerminalResize = this.onTerminalResize_.bind(this);
   document.body.onunload = this.close_.bind(this);
 
   // Setup initial window size.
   this.onTerminalResize_(this.io.terminal_.screenSize.width, this.io.terminal_.screenSize.height);
 
   this.io.println(
-    hterm.msg('WELCOME_VERSION', 
-    ['\x1b[1m' + 'Beagle Term' + '\x1b[m', 
+    hterm.msg('WELCOME_VERSION',
+    ['\x1b[1m' + 'Beagle Term' + '\x1b[m',
     '\x1b[1m' + 'BETA' + '\x1b[m']));
 
   var port = this.portInfo_.port;
@@ -118,7 +118,7 @@ Beagle.prototype.sendString_ = function(string) {
  * @param {string} string The received string.
  */
 Beagle.prototype.onRead_ = function(string) {
-  
+
 };
 
 /**
