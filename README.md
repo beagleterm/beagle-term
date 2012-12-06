@@ -2,6 +2,11 @@
 =======================================
 ![beagleterm#1](https://lh4.googleusercontent.com/-uQd3jpSrk4w/UHwzxcomb6I/AAAAAAAAGWU/10HMI257zcQ/s580/beagleterm.png)
 
+NOTE
+-----
+* The newest Chrome Release(Ver 23) has a bug while using Chrome.Serial API. 
+ - We already reported this [issue](http://code.google.com/p/chromium/issues/detail?id=154803)
+
 This application ..
 ----------------------
 * is Chrome packaged app.
