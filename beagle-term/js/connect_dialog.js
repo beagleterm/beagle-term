@@ -5,7 +5,7 @@ var ConnectDialog = function() {};
 ConnectDialog.show = function(onComplete) {
   lib.ensureRuntimeDependencies();
   $('a[rel*=leanModal]').leanModal({closeButton: '#connect'});
-
+  
   var port = null;
   var bitrate = 9600;
   var $portPicker = $('#port-picker');
@@ -23,11 +23,12 @@ ConnectDialog.show = function(onComplete) {
         $portPicker.append($option);
       });
 
-      // Show dialog
+      // Show setup dialog
       $('#connect-dialog-trigger').click();
 
     } else {
-      console.log('Serial device not found. Please check your serial port.');
+      // Show error dialog      
+      MessageDialog.show('Could not find serial device. Please check your serial connection and try again.');
     }
   });
 

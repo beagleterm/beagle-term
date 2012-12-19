@@ -26,15 +26,15 @@ body {
   display: none;
 }
 
-#connect-dialog {
+#connect-dialog-trigger {
+  display: none;
+}
+
+.dialog {
   border-radius: 7px 7px 7px 7px;
   background-color: white;
   padding: 10px;
   width: 30%;
-}
-
-#connect-dialog-trigger {
-  display: none;
 }
 
 .dialog-title {
