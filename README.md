@@ -10,7 +10,7 @@ NOTE
 
 This application ..
 ----------------------
-* is Chrome packaged app.
+* is a kind of Chrome packaged app.
 * Supports RS232(Serial)
 * Even supports VT100
 * No browser plugins required!
