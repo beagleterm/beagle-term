@@ -72,7 +72,11 @@ Beagle.prototype.run = function() {
   this.io.onVTKeystroke = this.sendString_.bind(this);
   this.io.sendString = this.sendString_.bind(this);
   this.io.onTerminalResize = this.onTerminalResize_.bind(this);
+  // TODO(sungguk) : onunload is not allowed in packaged app, 
+  // We might need to use onSuspend() rather than onunload
+  // https://code.google.com/p/chromium/issues/detail?id=155932
   document.body.onunload = this.close_.bind(this);
+  
 
   // Setup initial window size.
   this.onTerminalResize_(this.io.terminal_.screenSize.width, this.io.terminal_.screenSize.height);
