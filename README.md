@@ -18,6 +18,7 @@ This application ..
 Environment
 -------------
 * Beagle Term runs on Google Chrome Canary Ver.24 and newer versions Or Chrome Dev(it's different with original chromium)
+* for Windows, please use latest dev version. you can download it at http://download-chromium.appspot.com/
 * [How to install Beagle Term](https://github.com/beagleterm/beagle-term/wiki/InstallBeagleTerm)
 
 License
