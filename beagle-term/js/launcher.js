@@ -4,3 +4,10 @@ chrome.app.runtime.onLaunched.addListener(function() {
     height: 768
   });
 })
+
+chrome.runtime.onSuspend.addListener(function() { 
+  console.log("called at chrome.runtime.onSuspend.addListener");
+    serial_lib.closeSerial(function(){
+      console.log("close successfully");
+    })
+});
