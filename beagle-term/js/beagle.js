@@ -72,9 +72,7 @@ Beagle.prototype.run = function() {
   this.io.onVTKeystroke = this.sendString_.bind(this);
   this.io.sendString = this.sendString_.bind(this);
   this.io.onTerminalResize = this.onTerminalResize_.bind(this);
-  // TODO(sungguk) : onunload is not allowed in packaged app, 
-  // We might need to use onSuspend() rather than onunload
-  // https://code.google.com/p/chromium/issues/detail?id=155932
+
   document.body.onunload = this.close_.bind(this);
   
 
@@ -90,13 +88,15 @@ Beagle.prototype.run = function() {
   var bitrate = Number(this.portInfo_.bitrate);
   var self = this;
 
-  serial_lib.openSerial(port, {'bitrate': bitrate}, function(openInfo) {
-    self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
+  chrome.runtime.getBackgroundPage(function(bgPage) {
+    bgPage.serial_lib.openSerial(port, {'bitrate': bitrate}, function(openInfo) {
+        self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
 
-    serial_lib.startListening(function(string) {
-      console.log('[onRead_] ' + string);
-      self.io.print(string);
-    });
+        bgPage.serial_lib.startListening(function(string) {
+          console.log('[onRead_] ' + string);
+          self.io.print(string);
+        });
+      });
   });
 };
 
@@ -109,11 +109,11 @@ Beagle.prototype.sendString_ = function(string) {
   var row = JSON.stringify(string);
   console.log('[sendString] ' + row);
 
-  if (!serial_lib.isConnected()) {
-    return;
-  }
-
-  serial_lib.writeSerial(string);
+  chrome.runtime.getBackgroundPage(function(bgPage) {
+    if(bgPage.serial_lib.isConnected()){
+      bgPage.serial_lib.writeSerial(string);
+    }
+  });
 };
 
 /**
@@ -151,5 +151,7 @@ Beagle.prototype.exit = function(code) {
  */
 Beagle.prototype.close_ = function() {
   console.log('close_');
-  serial_lib.closeSerial(function(){});
+  chrome.runtime.getBackgroundPage(function(bgPage) {
+    bgPage.serial_lib.closeSerial(function(){});
+  });
 }
