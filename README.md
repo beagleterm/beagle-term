@@ -4,7 +4,7 @@
 
 NOTE
 -----
-* The newest Chrome Release(Ver 23) has a bug while using Chrome.Serial API. 
+* The newest Chrome Release(Ver 24) has a bug while using Chrome.Serial API. 
  - We already reported this [issue](http://code.google.com/p/chromium/issues/detail?id=154803)
  - and fixed it!. if you want to run Beagle Term in Windows, please use the latest dev version (http://download-chromium.appspot.com/
 
