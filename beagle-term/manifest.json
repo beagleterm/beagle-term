@@ -20,7 +20,7 @@
   ],
   "app": {
     "background": {
-      "scripts": ["js/launcher.js"]
+      "scripts": ["js/launcher.js", "js/serial.js"]
     }
   }
 }
