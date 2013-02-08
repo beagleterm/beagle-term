@@ -2,7 +2,7 @@
   "minimum_chrome_version": "23",
   "manifest_version": 2,
   "name": "Beagle Term",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "default_locale": "en",
   "icons": {
     "128": "images/beagleterm-128.png",
@@ -10,7 +10,7 @@
     "32": "images/beagleterm-32.png",
     "16": "images/beagleterm-16.png"
   },
-  "description": "Beagle Term is web-based serial terminal emulator.",
+  "description": "Beagle Term is serial terminal emulator based on Google Chrome.",
   "offline_enabled": true,
   "permissions": [
     "clipboardRead",
