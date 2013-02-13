@@ -1593,7 +1593,7 @@ hterm.VT.OSC['52'] = function(parseState) {
 
   var data = atob(args[1]);
   if (data)
-    this.terminal.copyStringToClipboard(data);
+    this.terminal.copyStringToClipboard(this.decodeUTF8(data));
 };
 
 /**
@@ -2056,12 +2056,11 @@ hterm.VT.CSI['m'] = function(parseState) {
 
     } else if (arg >= 100 && arg <= 107) {
       attrs.backgroundIndex = arg - 100 + 8;
-
     }
   }
 
-  attrs.updateColors(this.terminal.getForegroundColor(),
-                     this.terminal.getBackgroundColor());
+  attrs.setDefaults(this.terminal.getForegroundColor(),
+                    this.terminal.getBackgroundColor());
 };
 
 /**

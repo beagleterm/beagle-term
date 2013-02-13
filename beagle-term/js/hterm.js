@@ -4,13 +4,21 @@
 
 'use strict';
 
-lib.rtdep('lib.fs');
+lib.rtdep('lib.fs', 'lib.Storage');
 
 /**
  * @fileoverview Declares the hterm.* namespace and some basic shared utilities
  * that are too small to deserve dedicated files.
  */
 var hterm = {};
+
+/**
+ * The type of window hosting hterm.
+ *
+ * This is set as part of hterm.init().  The value is invalid until
+ * initialization completes.
+ */
+hterm.windowType = null;
 
 /**
  * Static initialization for hterm.*, call this once before using anything
@@ -20,9 +28,35 @@ var hterm = {};
  *     initialization is complete.
  */
 hterm.init = function(opt_onInit) {
-  // Eventually this init may need to be async, hence the callback.
-  if (opt_onInit)
-    opt_onInit();
+  function onWindow(window) {
+    hterm.windowType = window.type;
+
+    if (opt_onInit)
+      opt_onInit();
+  }
+
+  function onTab(tab) {
+    chrome.windows.get(tab.windowId, null, onWindow);
+  }
+
+  if (!hterm.defaultStorage) {
+    var ary = navigator.userAgent.match(/\sChrome\/(\d\d)/);
+    var version = parseInt(ary[1]);
+    if (chrome.storage && chrome.storage.sync && version > 21) {
+      hterm.defaultStorage = new lib.Storage.Chrome(chrome.storage.sync);
+    } 
+	//  NOTE(sungguk) : localStorage is not allowed at packaged app
+	//  So I removed below code for compatibility
+    //  hterm.defaultStorage = new lib.Storage.Local();
+  }
+
+  if (chrome.tabs) {
+    // The getCurrent method gets the tab that is "currently running", not the
+    // topmost or focused tab.
+    chrome.tabs.getCurrent(onTab);
+  } else {
+    setTimeout(onWindow.bind(null, {type: 'normal'}), 0);
+  }
 };
 
 /**

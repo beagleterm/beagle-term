@@ -16,7 +16,8 @@
     "clipboardRead",
     "clipboardWrite",
     "unlimitedStorage",
-    "serial"
+    "serial",
+	"storage"
   ],
   "app": {
     "background": {

@@ -179,7 +179,40 @@ lib.colors.hexToRGB = function(arg) {
 };
 
 /**
+ * Converts one or more CSS rgb(...) forms into their '#RRGGBB' color values.
+ *
+ * If given an rgba(...) form, the alpha field is thrown away.
+ *
+ * Arrays are converted in place. If a value cannot be converted, it is
+ * replaced with null.
+ *
+ * @param {string|Array.<string>} A single rgb(...) value or array of rgb(...)
+ *     values to convert.
+ * @return {string|Array.<string>} The converted value or values.
+ */
+lib.colors.rgbToHex = function(arg) {
+  function convert(rgb) {
+    var ary = lib.colors.crackRGB(rgb);
+    return '#' + ((parseInt(ary[0]) << 16) |
+                  (parseInt(ary[1]) <<  8) |
+                  (parseInt(ary[2]) <<  0)).toString(16);
+  }
+
+  if (arg instanceof Array) {
+    for (var i = 0; i < arg.length; i++) {
+      arg[i] = convert(arg[i]);
+    }
+  } else {
+    arg = convert(arg);
+  }
+
+  return arg;
+};
+
+/**
  * Take any valid css color definition and turn it into an rgb or rgba value.
+ *
+ * Returns null if the value could not be normalized.
  */
 lib.colors.normalizeCSS = function(def) {
   if (def.substr(0, 1) == '#')
@@ -277,9 +310,9 @@ lib.colors.nameToRGB = function(name) {
 };
 
 /**
- * The default color palette.
+ * The stock color palette.
  */
-lib.colors.defaultColorPalette = lib.colors.hexToRGB
+lib.colors.stockColorPalette = lib.colors.hexToRGB
   ([// The "ANSI 16"...
     '#000000', '#CC0000', '#4E9A06', '#C4A000',
     '#3465A4', '#75507B', '#06989A', '#D3D7CF',
@@ -336,6 +369,10 @@ lib.colors.defaultColorPalette = lib.colors.hexToRGB
     '#BCBCBC', '#C6C6C6', '#D0D0D0', '#DADADA', '#E4E4E4', '#EEEEEE'
    ]);
 
+/**
+ * The current color palette, possibly with user changes.
+ */
+lib.colors.colorPalette = lib.colors.stockColorPalette;
 
 /**
  * Named colors according to the stock X11 rgb.txt file.
