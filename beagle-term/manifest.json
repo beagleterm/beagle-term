@@ -1,5 +1,5 @@
 {
-  "minimum_chrome_version": "23",
+  "minimum_chrome_version": "25",
   "manifest_version": 2,
   "name": "Beagle Term",
   "version": "1.2.0",
