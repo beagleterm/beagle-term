@@ -57,6 +57,8 @@ ConnectDialog.loadBitrate = function() {
   chrome.storage.local.get(BITRATE_KEY,function(result){
     if (result.bit_rate !== undefined) {
       $('#bitrate-picker').val(result[BITRATE_KEY]);
+    } else {
+      $('#bitrate-picker').val("115200");
     }
   });
 };
