@@ -7,7 +7,9 @@ Install
 Now you can download directly from Chrome Web Store
 * https://chrome.google.com/webstore/detail/beagle-term/gkdofhllgfohlddimiiildbgoggdpoea
 * ChromeOS version : 
-   - https://chrome.google.com/webstore/detail/beagle-term-for-chromeos/ncfchcikmnnfpdgkceiankfcnjfcakpp
+    https://chrome.google.com/webstore/detail/beagle-term-for-chromeos/ncfchcikmnnfpdgkceiankfcnjfcakpp
+
+
 This application ..
 ----------------------
 * is a kind of Chrome packaged app.
