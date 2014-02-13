@@ -96,8 +96,11 @@ Beagle.prototype.run = function() {
         self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
         this.connectionId = openInfo.connectionId;
         
-        chrome.serial.onReceive.addListener(function(connectionId, data) {
-          self.io.print(string);
+        // TODO(sungguk): Make buffer size 0 or 1;
+        chrome.serial.onReceive.addListener(function(info) {
+          if (info && info.data) {
+            self.io.print(ab2str(info.data));
+          }
         });
       });
     } else {
