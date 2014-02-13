@@ -25,6 +25,7 @@ function Beagle(argv) {
   this.argv_ = argv;
   this.io = null;
   this.portInfo_ = null;
+  this.connectionId = -1;
 };
 
 /**
@@ -72,6 +73,7 @@ Beagle.prototype.run = function() {
   this.io.onVTKeystroke = this.sendString_.bind(this);
   this.io.sendString = this.sendString_.bind(this);
   this.io.onTerminalResize = this.onTerminalResize_.bind(this);
+  this.connectionId = -1;
 
   document.body.onunload = this.close_.bind(this);
   
@@ -92,7 +94,11 @@ Beagle.prototype.run = function() {
     if (chrome.serial.connect) {
       chrome.serial.connect(port, {'bitrate': bitrate}, function(openInfo) {
         self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
-        self.io.println('TODO: Start listen');
+        this.connectionId = openInfo.connectionId;
+        
+        chrome.serial.onReceive.addListener(function(connectionId, data) {
+          self.io.print(string);
+        });
       });
     } else {
         bgPage.serial_lib.openSerial(port, {'bitrate': bitrate}, function(openInfo) {
@@ -107,6 +113,15 @@ Beagle.prototype.run = function() {
   });
 };
 
+var ab2str=function(buf) {
+  var bufView=new Uint8Array(buf);
+  var unis=[];
+  for (var i=0; i<bufView.length; i++) {
+    unis.push(bufView[i]);
+  }
+  return String.fromCharCode.apply(null, unis);
+};
+  
 /**
  * Send a string to the connected device.
  *
@@ -117,8 +132,16 @@ Beagle.prototype.sendString_ = function(string) {
   console.log('[sendString] ' + row);
 
   chrome.runtime.getBackgroundPage(function(bgPage) {
-    if(bgPage.serial_lib.isConnected()){
-      bgPage.serial_lib.writeSerial(string);
+    if (chrome.serial.write) {
+      if(bgPage.serial_lib.isConnected()){
+        bgPage.serial_lib.writeSerial(string);
+      }
+    } else {
+      if (this.connectionId != -1) {
+        chrome.serial.send(this.connectionId, ab2str(string), function () {
+         // TODO: callback.
+        });
+      }
     }
   });
 };
