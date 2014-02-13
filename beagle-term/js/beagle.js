@@ -89,7 +89,13 @@ Beagle.prototype.run = function() {
   var self = this;
 
   chrome.runtime.getBackgroundPage(function(bgPage) {
-    bgPage.serial_lib.openSerial(port, {'bitrate': bitrate}, function(openInfo) {
+    if (chrome.serial.connect) {
+      chrome.serial.connect(port, {'bitrate': bitrate}, function(openInfo) {
+        self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
+        self.io.println('TODO: Start listen');
+      });
+    } else {
+        bgPage.serial_lib.openSerial(port, {'bitrate': bitrate}, function(openInfo) {
         self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
 
         bgPage.serial_lib.startListening(function(string) {
@@ -97,6 +103,7 @@ Beagle.prototype.run = function() {
           self.io.print(string);
         });
       });
+    }
   });
 };
 
