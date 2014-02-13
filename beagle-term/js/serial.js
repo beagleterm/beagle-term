@@ -61,7 +61,7 @@ var serial_lib=(function() {
     chrome.serial.open(serialPort, options, function(cInfo) {
      onOpen(cInfo, callback)
     });
-  });
+  };
   var onOpen=function(cInfo, callback) {
     if (!cInfo || !cInfo.connectionId || cInfo.connectionId<0) {
       logObj(cInfo);
