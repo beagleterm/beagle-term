@@ -76,7 +76,6 @@ Beagle.prototype.run = function() {
   this.connectionId = -1;
 
   document.body.onunload = this.close_.bind(this);
-  
 
   // Setup initial window size.
   this.onTerminalResize_(this.io.terminal_.screenSize.width, this.io.terminal_.screenSize.height);
@@ -124,11 +123,11 @@ var ab2str=function(buf) {
   return String.fromCharCode.apply(null, unis);
 };
 
-var str2ab=function(str) {
-  var buf=new ArrayBuffer(str.length);
-  var bufView=new Uint8Array(buf);
+var str2ab = function(str) {
+  var buf = new ArrayBuffer(str.length);
+  var bufView = new Uint8Array(buf);
   for (var i=0; i<str.length; i++) {
-    bufView[i]=str.charCodeAt(i);
+    bufView[i] = str.charCodeAt(i);
   }
   return buf;
 }
@@ -163,7 +162,6 @@ Beagle.prototype.sendString_ = function(string) {
  * @param {string} string The received string.
  */
 Beagle.prototype.onRead_ = function(string) {
-
 };
 
 /**
@@ -173,7 +171,6 @@ Beagle.prototype.onRead_ = function(string) {
  * @param {string|integer} terminal height.
  */
 Beagle.prototype.onTerminalResize_ = function(width, height) {
-
 };
 
 /**
@@ -183,8 +180,9 @@ Beagle.prototype.exit = function(code) {
   this.close_();
   this.io.pop();
 
-  if (this.argv_.onExit)
+  if (this.argv_.onExit) {
     this.argv_.onExit(code);
+  }
 };
 
 /**
@@ -195,11 +193,11 @@ Beagle.prototype.close_ = function() {
   var self = this;
   chrome.runtime.getBackgroundPage(function(bgPage) {
     if (chrome.serial.disconnect) {
-	  chrome.serial.disconnect(self.connectionId, function () {
-	  // TODO: callback.
-	  });
-	} else {
+      chrome.serial.disconnect(self.connectionId, function () {
+        // TODO: callback.
+      });
+    } else {
       bgPage.serial_lib.closeSerial(function(){});
-	}
+    }
   });
 }
