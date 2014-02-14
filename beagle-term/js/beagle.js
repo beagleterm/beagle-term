@@ -25,6 +25,7 @@ function Beagle(argv) {
   this.argv_ = argv;
   this.io = null;
   this.portInfo_ = null;
+  this.connectionId = -1;
 };
 
 /**
@@ -72,6 +73,7 @@ Beagle.prototype.run = function() {
   this.io.onVTKeystroke = this.sendString_.bind(this);
   this.io.sendString = this.sendString_.bind(this);
   this.io.onTerminalResize = this.onTerminalResize_.bind(this);
+  this.connectionId = -1;
 
   document.body.onunload = this.close_.bind(this);
   
@@ -89,7 +91,19 @@ Beagle.prototype.run = function() {
   var self = this;
 
   chrome.runtime.getBackgroundPage(function(bgPage) {
-    bgPage.serial_lib.openSerial(port, {'bitrate': bitrate}, function(openInfo) {
+    if (chrome.serial.connect) {
+      chrome.serial.connect(port, {'bitrate': bitrate}, function(openInfo) {
+        self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
+        self.connectionId = openInfo.connectionId;
+        
+        chrome.serial.onReceive.addListener(function(info) {
+          if (info && info.data) {
+            self.io.print(ab2str(info.data));
+          }
+        });
+      });
+    } else {
+        bgPage.serial_lib.openSerial(port, {'bitrate': bitrate}, function(openInfo) {
         self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
 
         bgPage.serial_lib.startListening(function(string) {
@@ -97,8 +111,27 @@ Beagle.prototype.run = function() {
           self.io.print(string);
         });
       });
+    }
   });
 };
+
+var ab2str=function(buf) {
+  var bufView=new Uint8Array(buf);
+  var unis=[];
+  for (var i=0; i<bufView.length; i++) {
+    unis.push(bufView[i]);
+  }
+  return String.fromCharCode.apply(null, unis);
+};
+
+var str2ab=function(str) {
+  var buf=new ArrayBuffer(str.length);
+  var bufView=new Uint8Array(buf);
+  for (var i=0; i<str.length; i++) {
+    bufView[i]=str.charCodeAt(i);
+  }
+  return buf;
+}
 
 /**
  * Send a string to the connected device.
@@ -108,10 +141,18 @@ Beagle.prototype.run = function() {
 Beagle.prototype.sendString_ = function(string) {
   var row = JSON.stringify(string);
   console.log('[sendString] ' + row);
-
+  var self = this;
   chrome.runtime.getBackgroundPage(function(bgPage) {
-    if(bgPage.serial_lib.isConnected()){
-      bgPage.serial_lib.writeSerial(string);
+    if (chrome.serial.write) {
+      if(bgPage.serial_lib.isConnected()){
+        bgPage.serial_lib.writeSerial(string);
+      }
+    } else {
+      if (self.connectionId != -1) {
+        chrome.serial.send(self.connectionId, str2ab(string), function () {
+         // TODO: callback.
+        });
+      }
     }
   });
 };
@@ -151,7 +192,14 @@ Beagle.prototype.exit = function(code) {
  */
 Beagle.prototype.close_ = function() {
   console.log('close_');
+  var self = this;
   chrome.runtime.getBackgroundPage(function(bgPage) {
-    bgPage.serial_lib.closeSerial(function(){});
+    if (chrome.serial.disconnect) {
+	  chrome.serial.disconnect(self.connectionId, function () {
+	  // TODO: callback.
+	  });
+	} else {
+      bgPage.serial_lib.closeSerial(function(){});
+	}
   });
 }

@@ -62,7 +62,6 @@ var serial_lib=(function() {
      onOpen(cInfo, callback)
     });
   };
-  
   var onOpen=function(cInfo, callback) {
     if (!cInfo || !cInfo.connectionId || cInfo.connectionId<0) {
       logObj(cInfo);

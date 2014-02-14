@@ -13,25 +13,50 @@ ConnectDialog.show = function(onComplete) {
   
   // Build port picker
   chrome.runtime.getBackgroundPage(function(bgPage) {
-    bgPage.serial_lib.getPorts(function(ports) {
-      var eligiblePorts = ports.filter(function(port) {
-        return !port.match(/[Bb]luetooth/);
-      });
-
-      if (eligiblePorts.length > 0) {
-        eligiblePorts.forEach(function(port) {
-          var $option = $('<option>' + port + '</option>').attr('value', port);
-          $portPicker.append($option);
+    // Notice : chrome.serial.getPorts will not be available from M33.
+    //          Until M33 is landed, let the old code be.
+    if (chrome.serial.getPorts) {
+      bgPage.serial_lib.getPorts(function(ports) {
+        var eligiblePorts = ports.filter(function(port) {
+          return !port.match(/[Bb]luetooth/);
         });
 
-        // Show setup dialog
-        $('#connect-dialog-trigger').click();
+        if (eligiblePorts.length > 0) {
+          eligiblePorts.forEach(function(port) {
+            var $option = $('<option>' + port + '</option>').attr('value', port);
+            $portPicker.append($option);
+          });
 
-      } else {
-        // Show error dialog
-        MessageDialog.show('Could not find serial device. Please check your serial connection and try again.');
-      }
-    });
+          // Show setup dialog
+          $('#connect-dialog-trigger').click();
+
+        } else {
+          // Show error dialog
+          MessageDialog.show('Could not find serial device. Please check your serial connection and try again.');
+        }
+      });
+    } else {
+      chrome.serial.getDevices(function(ports) {
+        var eligiblePorts = ports.filter(function(port) {
+          return !port.path.match(/[Bb]luetooth/);
+        });
+
+        if (eligiblePorts.length > 0) {
+          eligiblePorts.forEach(function(port) {
+            var portName = port.path;
+            var $option = $('<option>' + portName + '</option>').attr('value', portName);
+            $portPicker.append($option);
+          });
+
+          // Show setup dialog
+          $('#connect-dialog-trigger').click();
+
+        } else {
+          // Show error dialog
+          MessageDialog.show('Could not find serial device. Please check your serial connection and try again.');
+        }
+      });
+    }
   });
 
   $('#connect').click(function() {
