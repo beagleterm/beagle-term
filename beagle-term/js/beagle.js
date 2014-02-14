@@ -192,7 +192,14 @@ Beagle.prototype.exit = function(code) {
  */
 Beagle.prototype.close_ = function() {
   console.log('close_');
+  var self = this;
   chrome.runtime.getBackgroundPage(function(bgPage) {
-    bgPage.serial_lib.closeSerial(function(){});
+    if (chrome.serial.disconnect) {
+	  chrome.serial.disconnect(self.connectionId, function () {
+	  // TODO: callback.
+	  });
+	} else {
+      bgPage.serial_lib.closeSerial(function(){});
+	}
   });
 }
