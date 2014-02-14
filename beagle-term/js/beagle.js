@@ -94,9 +94,8 @@ Beagle.prototype.run = function() {
     if (chrome.serial.connect) {
       chrome.serial.connect(port, {'bitrate': bitrate}, function(openInfo) {
         self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
-        this.connectionId = openInfo.connectionId;
+        self.connectionId = openInfo.connectionId;
         
-        // TODO(sungguk): Make buffer size 0 or 1;
         chrome.serial.onReceive.addListener(function(info) {
           if (info && info.data) {
             self.io.print(ab2str(info.data));
@@ -124,7 +123,16 @@ var ab2str=function(buf) {
   }
   return String.fromCharCode.apply(null, unis);
 };
-  
+
+var str2ab=function(str) {
+  var buf=new ArrayBuffer(str.length);
+  var bufView=new Uint8Array(buf);
+  for (var i=0; i<str.length; i++) {
+    bufView[i]=str.charCodeAt(i);
+  }
+  return buf;
+}
+
 /**
  * Send a string to the connected device.
  *
@@ -133,15 +141,15 @@ var ab2str=function(buf) {
 Beagle.prototype.sendString_ = function(string) {
   var row = JSON.stringify(string);
   console.log('[sendString] ' + row);
-
+  var self = this;
   chrome.runtime.getBackgroundPage(function(bgPage) {
     if (chrome.serial.write) {
       if(bgPage.serial_lib.isConnected()){
         bgPage.serial_lib.writeSerial(string);
       }
     } else {
-      if (this.connectionId != -1) {
-        chrome.serial.send(this.connectionId, ab2str(string), function () {
+      if (self.connectionId != -1) {
+        chrome.serial.send(self.connectionId, str2ab(string), function () {
          // TODO: callback.
         });
       }
