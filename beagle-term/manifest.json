@@ -21,7 +21,7 @@
   ],
   "app": {
     "background": {
-      "scripts": ["js/launcher.js", "js/serial.js"]
+      "scripts": ["background.js", "js/serial.js"]
     }
   }
 }
