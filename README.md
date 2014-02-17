@@ -29,8 +29,3 @@ TO DO LIST
 ------------
 * fix grammertical mistake on my English document or comment or source code.
 * need to create dialogs showing information(for exmaple, connection ports..)
-
-More..
-------------
-* This project is managed by two branches. One every platform except chromeos. the other is for chromeOS. 
-
