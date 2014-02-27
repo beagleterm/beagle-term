@@ -4,7 +4,7 @@
 
 Install
 ---------
-Now you can download directly from Chrome Web Store
+Now you can download directly from Chrome Web Store.
 * https://chrome.google.com/webstore/detail/beagle-term/gkdofhllgfohlddimiiildbgoggdpoea
 
 
@@ -23,9 +23,9 @@ Environment
 License
 ----------
 * This application, Beagle Term is forked from original chromium hterm source.(http://git.chromium.org/chromiumos/platform/assets.git)
-* Beagle Term also follow BSD license. 
+* BSD license. 
 
 TO DO LIST
 ------------
-* fix grammertical mistake on my English document or comment or source code.
-* need to create dialogs showing information(for exmaple, connection ports..)
+* Fix grammertical mistake on my English document or comment or source code.
+* Need to create dialogs showing information(for exmaple, connection ports..)
