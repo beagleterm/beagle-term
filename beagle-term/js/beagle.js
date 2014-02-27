@@ -90,27 +90,16 @@ Beagle.prototype.run = function() {
   var self = this;
 
   chrome.runtime.getBackgroundPage(function(bgPage) {
-    if (chrome.serial.connect) {
-      chrome.serial.connect(port, {'bitrate': bitrate}, function(openInfo) {
-        self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
-        self.connectionId = openInfo.connectionId;
-        
-        chrome.serial.onReceive.addListener(function(info) {
-          if (info && info.data) {
-            self.io.print(ab2str(info.data));
-          }
-        });
+    chrome.serial.connect(port, {'bitrate': bitrate}, function(openInfo) {
+      self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
+      self.connectionId = openInfo.connectionId;
+      
+      chrome.serial.onReceive.addListener(function(info) {
+        if (info && info.data) {
+          self.io.print(ab2str(info.data));
+        }
       });
-    } else {
-        bgPage.serial_lib.openSerial(port, {'bitrate': bitrate}, function(openInfo) {
-        self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
-
-        bgPage.serial_lib.startListening(function(string) {
-          console.log('[onRead_] ' + string);
-          self.io.print(string);
-        });
-      });
-    }
+    });
   });
 };
 
@@ -142,16 +131,10 @@ Beagle.prototype.sendString_ = function(string) {
   console.log('[sendString] ' + row);
   var self = this;
   chrome.runtime.getBackgroundPage(function(bgPage) {
-    if (chrome.serial.write) {
-      if(bgPage.serial_lib.isConnected()){
-        bgPage.serial_lib.writeSerial(string);
-      }
-    } else {
-      if (self.connectionId != -1) {
-        chrome.serial.send(self.connectionId, str2ab(string), function () {
-         // TODO: callback.
-        });
-      }
+    if (self.connectionId != -1) {
+      chrome.serial.send(self.connectionId, str2ab(string), function () {
+       // TODO: callback.
+      });
     }
   });
 };
@@ -192,12 +175,8 @@ Beagle.prototype.close_ = function() {
   console.log('close_');
   var self = this;
   chrome.runtime.getBackgroundPage(function(bgPage) {
-    if (chrome.serial.disconnect) {
-      chrome.serial.disconnect(self.connectionId, function () {
-        // TODO: callback.
-      });
-    } else {
-      bgPage.serial_lib.closeSerial(function(){});
-    }
+    chrome.serial.disconnect(self.connectionId, function () {
+      // TODO: callback.
+    });
   });
 }
