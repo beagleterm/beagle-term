@@ -89,16 +89,15 @@ Beagle.prototype.run = function() {
   var bitrate = Number(this.portInfo_.bitrate);
   var self = this;
 
-  chrome.runtime.getBackgroundPage(function(bgPage) {
-    chrome.serial.connect(port, {'bitrate': bitrate}, function(openInfo) {
-      self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
-      self.connectionId = openInfo.connectionId;
-      
-      chrome.serial.onReceive.addListener(function(info) {
-        if (info && info.data) {
-          self.io.print(ab2str(info.data));
-        }
-      });
+  chrome.serial.connect(port, {'bitrate': bitrate}, function(openInfo) {
+    self.io.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
+    self.connectionId = openInfo.connectionId;
+
+    AddConnectedSerialId(openInfo.connectionId);
+    chrome.serial.onReceive.addListener(function(info) {
+      if (info && info.data) {
+        self.io.print(ab2str(info.data));
+      }
     });
   });
 };
@@ -130,13 +129,11 @@ Beagle.prototype.sendString_ = function(string) {
   var row = JSON.stringify(string);
   console.log('[sendString] ' + row);
   var self = this;
-  chrome.runtime.getBackgroundPage(function(bgPage) {
-    if (self.connectionId != -1) {
-      chrome.serial.send(self.connectionId, str2ab(string), function () {
-       // TODO: callback.
-      });
-    }
-  });
+  if (self.connectionId != -1) {
+    chrome.serial.send(self.connectionId, str2ab(string), function () {
+     // TODO: callback.
+    });
+  }
 };
 
 /**
@@ -174,9 +171,7 @@ Beagle.prototype.exit = function(code) {
 Beagle.prototype.close_ = function() {
   console.log('close_');
   var self = this;
-  chrome.runtime.getBackgroundPage(function(bgPage) {
-    chrome.serial.disconnect(self.connectionId, function () {
-      // TODO: callback.
-    });
+  chrome.serial.disconnect(self.connectionId, function () {
+    // TODO: callback.
   });
 }
