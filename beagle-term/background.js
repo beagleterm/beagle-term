@@ -3,6 +3,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
 });
 
 var BeagleWindow = function() {
+  var connectedSerialId = 0;
   chrome.app.window.create(
     'beagle.html',
     {
@@ -10,6 +11,16 @@ var BeagleWindow = function() {
         width: 1024,
         height: 768
       }
+    },
+    function(win) {
+      win.contentWindow.AddConnectedSerialId = function(id) {
+        connectedSerialId = id;
+      };
+      win.onClosed.addListener(function() {
+        chrome.serial.disconnect(connectedSerialId, function () {
+          // TODO: callback.
+        });
+      });
     }
   );
 }
