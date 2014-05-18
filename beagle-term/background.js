@@ -1,3 +1,4 @@
+// TODO(sunglim): Add license.
 chrome.app.runtime.onLaunched.addListener(function() {
   new BeagleWindow();
 });
@@ -18,7 +19,7 @@ var BeagleWindow = function() {
       };
       win.onClosed.addListener(function() {
         chrome.serial.disconnect(connectedSerialId, function () {
-          // TODO: callback.
+          // We dont' handle callback.
         });
       });
     }
