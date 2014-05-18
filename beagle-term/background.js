@@ -19,7 +19,7 @@ var BeagleWindow = function() {
       };
       win.onClosed.addListener(function() {
         chrome.serial.disconnect(connectedSerialId, function () {
-          // We dont' handle callback.
+          // TODO: callback.
         });
       });
     }
