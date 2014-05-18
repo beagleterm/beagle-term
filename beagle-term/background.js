@@ -1,3 +1,4 @@
+// TODO(sunglim): Add license.
 chrome.app.runtime.onLaunched.addListener(function() {
   new BeagleWindow();
 });
