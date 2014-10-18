@@ -2,16 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-'use strict';
-
-lib.rtdep('lib.f',
-          'hterm');
-
 // CSP means that we can't kick off the initialization from the html file,
 // so we do it like this instead.
 window.onload = function() {
-  lib.ensureRuntimeDependencies();
-  hterm.init(Beagle.init);
+  lib.init(Beagle.init);
 };
 
 /**
@@ -26,6 +20,8 @@ function Beagle(argv) {
   this.io = null;
   this.portInfo_ = null;
   this.connectionId = -1;
+  this.keyboard_ = null;
+  this.pid_ = -1;
 };
 
 /**
@@ -42,22 +38,28 @@ Beagle.prototype.commandName = 'beagle';
  * This constructs a new Terminal instance.
  */
 Beagle.init = function() {
+  /*
   ConnectDialog.show(function(portInfo) {
-    var profileName = lib.f.parseQuery(document.location.search)['profile'];
-    var terminal = new hterm.Terminal(profileName);
+    // TODO(sunglim): We do not use storage. it should be removed.
+    hterm.defaultStorage = new lib.Storage.Chrome(chrome.storage.sync);
+    var terminal = new hterm.Terminal("BeagleTerminal");
     terminal.decorate(document.querySelector('#terminal'));
 
-    // Useful for console debugging.
-    window.term_ = terminal;
-
-    // Looks like there is a race between this and terminal initialization, thus
-    // adding timeout.
-    setTimeout(function() {
-      terminal.setCursorPosition(0, 0);
-      terminal.setCursorVisible(true);
+    terminal.onTerminalReady = function() {
       terminal.runCommandClass(Beagle, JSON.stringify(portInfo))
-    }, 500);
+      return true;
+    }
   });
+  */
+  hterm.defaultStorage = new lib.Storage.Chrome(chrome.storage.sync);
+  var terminal = new hterm.Terminal("BeagleTerminal");
+  terminal.decorate(document.querySelector('#terminal'));
+
+  terminal.onTerminalReady = function() {
+    terminal.runCommandClass(Beagle, document.location.hash.substr(1))
+    this.io.println("Beagle Term, still beta. https://github.com/beagleterm/beagle-term");
+    return true;
+  }
 
   return true;
 };
@@ -68,22 +70,15 @@ Beagle.init = function() {
  * This is invoked by the terminal as a result of terminal.runCommandClass().
  */
 Beagle.prototype.run = function() {
-  this.portInfo_ = JSON.parse(this.argv_.argString);
+  this.portInfo_ = "nike";//JSON.parse(this.argv_.argString);
   this.io = this.argv_.io.push();
-  this.io.onVTKeystroke = this.sendString_.bind(this);
-  this.io.sendString = this.sendString_.bind(this);
-  this.io.onTerminalResize = this.onTerminalResize_.bind(this);
+  this.io.onVTKeystroke = this.sendString_.bind(this, true /* fromKeyboard */);
+  this.io.sendString = this.sendString_.bind(this, false /* fromKeyboard */);
   this.connectionId = -1;
 
   document.body.onunload = this.close_.bind(this);
 
-  // Setup initial window size.
-  this.onTerminalResize_(this.io.terminal_.screenSize.width, this.io.terminal_.screenSize.height);
-
-  this.io.println(
-    hterm.msg('WELCOME_VERSION',
-    ['\x1b[1m' + 'Beagle Term' + '\x1b[m',
-    '\x1b[1m' + 'BETA' + '\x1b[m']));
+  this.io.println("Beagle Term, still beta. https://github.com/beagleterm/beagle-term");
 
   var port = this.portInfo_.port;
   var bitrate = Number(this.portInfo_.bitrate);
@@ -134,23 +129,6 @@ Beagle.prototype.sendString_ = function(string) {
      // TODO: callback.
     });
   }
-};
-
-/**
- * Read a string from the connected device.
- *
- * @param {string} string The received string.
- */
-Beagle.prototype.onRead_ = function(string) {
-};
-
-/**
- * Notify process about new terminal size.
- *
- * @param {string|integer} terminal width.
- * @param {string|integer} terminal height.
- */
-Beagle.prototype.onTerminalResize_ = function(width, height) {
 };
 
 /**

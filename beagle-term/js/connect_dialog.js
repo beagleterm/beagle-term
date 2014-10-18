@@ -1,9 +1,6 @@
-'use strict';
-
 var ConnectDialog = function() {};
 
 ConnectDialog.show = function(onComplete) {
-  lib.ensureRuntimeDependencies();
   $('a[rel*=leanModal]').leanModal({closeButton: '#connect'});
   
   var $portPicker = $('#port-picker');
@@ -17,9 +14,12 @@ ConnectDialog.show = function(onComplete) {
     //          Until M33 is landed, let the old code be.
     if (chrome.serial.getPorts) {
       bgPage.serial_lib.getPorts(function(ports) {
+        var eligiblePorts = ports;
+        /*
         var eligiblePorts = ports.filter(function(port) {
           return !port.match(/[Bb]luetooth/);
         });
+        */
 
         if (eligiblePorts.length > 0) {
           eligiblePorts.forEach(function(port) {
