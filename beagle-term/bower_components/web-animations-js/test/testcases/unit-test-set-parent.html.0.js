@@ -1,0 +1,90 @@
+
+"use strict";
+
+var elem = document.getElementById("anim");
+var animFunc = {left: "100px"};
+
+// Test that Animation is constructed with no parent.
+var child = new Animation(elem, animFunc, 1);
+test(function() {assert_equals(child.parent, null)},
+    "Child should have no parent");
+
+// Test that group is constructed with zero children.
+var parent = new AnimationGroup();
+test(function() {assert_equals(parent.children.length, 0)},
+    "Parent should have zero children");
+
+// Test that updates are made to child when constructing parent.
+var parent = new AnimationGroup([child]);
+test(function() {assert_equals(child.parent, parent)},
+    "Parent's constructor, Child's parent should be set to parent");
+test(function() {assert_equals(parent.children.length, 1)},
+    "Parent's constructor, Parent should have 1 child");
+test(function() {assert_equals(parent.children[0], child)},
+    "Parent's constructor, Parent should have correct child");
+
+// Test that updates are made to previous and new parent when using append().
+var newParent = new AnimationGroup();
+newParent.append(child);
+test(function() {assert_equals(child.parent, newParent)},
+    "With .append, child's parent should be updated to new parent");
+test(function() {assert_equals(parent.children.length, 0)},
+    "With .append, Previous parent should no longer have children");
+test(function() {assert_equals(newParent.children.length, 1)},
+    "With .append, New parent should now have 1 child");
+test(function() {assert_equals(newParent.children[0], child)},
+    "With .append, New parent should now have correct child");
+
+// Test that calling append() with an existing child causes that child to be moved
+// to the end of the list of children.
+var sibling = new Animation(elem, animFunc, 1.0);
+var animationSequence = new AnimationSequence([child, sibling]);
+test(function() {assert_equals(animationSequence.children.length, 2)},
+    "Moved child, new animationSequence.children.length");
+test(function() {assert_equals(animationSequence.children[0], child)},
+    "Moved child, new animationSequence's first child should be 'child'");
+test(function() {assert_equals(animationSequence.children[1], sibling)},
+    "Moved child, Second child should be 'sibling'");
+test(function() {assert_equals(child.startTime, 0.0)},
+    "Moved child, start time of 'child' == 0.0");
+test(function() {assert_equals(sibling.startTime, 1.0)},
+    "Moved child, start time of 'sibling' == 1.0");
+animationSequence.append(animationSequence.children[0]);
+test(function() {assert_equals(animationSequence.children.length, 2)},
+     "After .append, animationSequence.children.length");
+test(function() {assert_equals(animationSequence.children[0], sibling)},
+     "After .append, First child should be 'sibling'");
+test(function() {assert_equals(animationSequence.children[1], child)},
+     "After .append, Second child should be 'child'");
+test(function() {assert_equals(sibling.startTime, 0.0)},
+     "After .append, Start time of 'sibling'");
+test(function() {assert_equals(child.startTime, 1.0)},
+     "After.append, Start time of 'child'");
+
+// Test that setting TimedItem.parent is ignored.
+test(function() {
+  assert_throws(new TypeError(), function() {
+    child.parent = null;
+  });
+  assert_equals(child.parent, animationSequence);
+}, "TimedItem.parent should be read-only");
+test(function() {assert_equals(animationSequence.children.length, 2)},
+     "animationSequence.children.length");
+test(function() {assert_equals(animationSequence.children[0], sibling)},
+     "First child should be 'sibling'");
+test(function() {assert_equals(animationSequence.children[1], child)},
+     "Second child should be 'child'");
+test(function() {assert_equals(sibling.startTime, 0.0)},
+     "Start time of 'sibling'");
+test(function() {assert_equals(child.startTime, 1.0)},
+     "Start time of 'child'");
+
+// Test that TimedItem.clear() updates both parent and children.
+animationSequence.clear();
+test(function() {assert_equals(animationSequence.children.length, 0)},
+     "Parent's children should be cleared");
+test(function() {assert_equals(child.parent, null)},
+     "Child's parent should be cleared");
+test(function() {assert_equals(sibling.parent, null)},
+     "Sibling's parent should be cleared");
+

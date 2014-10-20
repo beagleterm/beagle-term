@@ -1,0 +1,73 @@
+<!--
+Copyright 2012 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--><!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+.animation {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  top: 0px;
+  left: 0px;
+  background: lightsteelblue;
+}
+.expectation {
+  background: red;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  top: 0px;
+  left: 0px;
+}
+#eTR {
+  -webkit-transform: translate(387.5px, 87.5px);
+  transform: translate(387.5px, 87.5px);
+}
+#eBL {
+  -webkit-transform: translate(87.5px, 287.5px);
+  transform: translate(87.5px, 287.5px);
+}
+#eBR, #animBR {
+  -webkit-transform: translate(387.5px, 287.5px);
+  transform: translate(387.5px, 287.5px);
+}
+svg {
+position:absolute;
+top: 0px;
+left: 0px;
+width: 800px;
+height: 600px;
+}
+</style>
+
+</head><body><svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path id="pathTR" d="M400,100l0,0l0,-50l100,0l86.3325,122.665z"></path>
+  <path d="M400,100l0,0l0,-50l100,0l86.3325,122.665z" stroke="black" stroke-width="1" fill="none"></path>
+  <path id="pathBL" d="M100,300l0,0l0,-50l100,0l86.3325,122.665z"></path>
+  <path d="M100,300l0,0l0,-50l100,0l86.3325,122.665z" stroke="black" stroke-width="1" fill="none"></path>
+  <path id="pathBR" d="M400,300l0,0l0,-50l100,0l86.3325,122.665z"></path>
+  <path d="M400,300l0,0l0,-50l100,0l86.3325,122.665z" stroke="black" stroke-width="1" fill="none"></path>
+</svg>
+
+<div id="eTR" class="expectation"></div>
+<div id="animTR" class="animation">→</div>
+<div id="eBL" class="expectation"></div>
+<div id="animBL" class="animation">→</div>
+<div id="eBR" class="expectation"></div>
+<div id="animBR" class="animation">→</div>
+
+<script src="auto-test-motion-path.html.0.js"></script>
+<script src="../bootstrap.js"></script>
+<script src="auto-test-motion-path.html.1.js"></script>
+</body></html>
