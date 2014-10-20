@@ -7,7 +7,6 @@ Install
 Now you can download directly from Chrome Web Store.
 * https://chrome.google.com/webstore/detail/beagle-term/gkdofhllgfohlddimiiildbgoggdpoea
 
-
 This application ..
 ----------------------
 * is a kind of Chrome packaged app.
@@ -16,13 +15,8 @@ This application ..
 * No browser plugins required!
 * [Demo Video](http://youtu.be/V6lQcjd6fHs)
 
-Environment
--------------
-* Beagle Term runs on Google Chrome Ver.25 and newer versions.
-
 License
 ----------
-* This application, Beagle Term is forked from original chromium hterm source.(http://git.chromium.org/chromiumos/platform/assets.git)
 * BSD license. 
 
 TO DO LIST
