@@ -1,0 +1,120 @@
+<!--
+Copyright 2012 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--><!DOCTYPE html><html><head><meta charset="UTF-8">
+
+<style>
+
+#status-box {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background: white;
+  border: 1px solid black;
+  padding-right: 5px;
+}
+
+h1 {
+  display: inline;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td {
+  border: 1px solid black;
+}
+
+iframe {
+  width: 800px;
+  height: 600px;
+}
+
+tbody {
+  color: gray;
+}
+
+td.log ul li {
+  white-space: pre;
+  font-family: monospace;
+}
+
+/* Fail styles */
+tbody.fail {
+  color: red;
+}
+
+li.fail {
+  color: red;
+}
+
+tbody.timeout {
+  color: yellow;
+}
+
+li.timeout {
+  color: yellow;
+}
+
+
+/* Pass styles */
+tbody.pass {
+  color: green;
+}
+
+li.pass {
+  color: green;
+}
+
+tbody.pass-expected-failure {
+  color: #00aa00;
+}
+
+li.pass-expected-failure {
+  color: #00aa00;
+}
+
+tbody.skipped {
+  color: #00aa00;
+}
+
+li.skipped {
+  color: #00aa00;
+}
+
+/* No-test styles */
+tbody.no-tests {
+  color: #ff8a00;
+}
+
+</style>
+<script src="browserdetect/bowser.js"></script>
+<script src="testcases.js"></script>
+
+</head><body><div id="status-box">
+<h1 id="status">Pending</h1>
+Tests: <span id="tests"></span>
+Loading: <span id="loading"></span> (<span id="loaded"></span>)
+Running: <span id="running"></span> (<span id="finished"></span>)
+Posting: <span id="posting"></span> (<span id="posted"></span>)
+</div>
+
+<table id="results"></table>
+<div id="spacer"></div>
+
+<script src="test-runner.html.0.js"></script>
+
+<script src="test-runner.html.1.js"></script>
+</body></html>

@@ -1,0 +1,5 @@
+
+    WCT.loadSuites([
+      'position.html'
+    ]);
+  

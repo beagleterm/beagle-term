@@ -1,0 +1,143 @@
+<!DOCTYPE html><!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><html><head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+  <title>paper-menu-button</title>
+
+  <script src="../webcomponentsjs/webcomponents.js"></script>
+
+  <link href="../core-icons/core-icons.html" rel="import">
+  <link href="../paper-item/paper-item.html" rel="import">
+
+  <link href="paper-menu-button.html" rel="import">
+
+  <style shim-shadowdom="">
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    .toolbar {
+      color: #fff;
+      font-size: 16px;
+      padding: 12px;
+    }
+
+    .toolbar-1 {
+      background-color: #3b78e7;
+    }
+
+    .toolbar-2 {
+      background-color: #4285f4;
+    }
+
+    .toolbar-3 {
+      background-color: #5e97f6;
+    }
+
+    .bottom-toolbar-1 {
+      background-color: #0d904f;
+    }
+
+    .bottom-toolbar-2 {
+      background-color: #0f9d58;
+    }
+
+    .bottom-toolbar-3 {
+      background-color: #33ac71;
+    }
+
+  </style>
+
+</head>
+<body>
+
+  <template is="auto-binding">
+
+  <div layout="" vertical="" fit="">
+
+    <div class="toolbar toolbar-1" layout="" horizontal="" center="">
+
+      <paper-menu-button icon="menu">
+        <template repeat="{{pastries}}">
+          <paper-item>{{}}</paper-item>
+        </template>
+      </paper-menu-button>
+
+      <paper-menu-button icon="menu" notransition="">
+        <template repeat="{{countries}}">
+          <paper-item>{{name}}</paper-item>
+        </template>
+      </paper-menu-button>
+
+      <div flex=""></div>
+
+      <paper-menu-button icon="more-vert" halign="right" notransition="">
+        <template repeat="{{countries}}">
+          <paper-item>{{name}}</paper-item>
+        </template>
+      </paper-menu-button>
+      
+      <paper-menu-button icon="more-vert" halign="right">
+        <template repeat="{{pastries}}">
+          <paper-item>{{}}</paper-item>
+        </template>
+      </paper-menu-button>
+
+    </div>
+
+    <div flex=""></div>
+
+    <div class="toolbar bottom-toolbar-1" layout="" horizontal="" center="">
+
+      <paper-menu-button icon="menu" valign="bottom">
+        <template repeat="{{pastries}}">
+          <paper-item>{{}}</paper-item>
+        </template>
+      </paper-menu-button>
+
+      <paper-menu-button icon="menu" valign="bottom" notransition="">
+        <template repeat="{{countries}}">
+          <paper-item>{{name}}</paper-item>
+        </template>
+      </paper-menu-button>
+
+      <div flex=""></div>
+
+      <paper-menu-button icon="more-vert" halign="right" valign="bottom" notransition="">
+        <template repeat="{{countries}}">
+          <paper-item>{{name}}</paper-item>
+        </template>
+      </paper-menu-button>
+      
+      <paper-menu-button icon="more-vert" halign="right" valign="bottom">
+        <template repeat="{{pastries}}">
+          <paper-item>{{}}</paper-item>
+        </template>
+      </paper-menu-button>
+
+    </div>
+
+  </div>
+
+  </template>
+
+  <script src="demo.html.0.js"></script>
+
+
+
+</body></html>
