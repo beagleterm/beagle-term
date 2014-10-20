@@ -47,6 +47,15 @@ var Crosh = function(argv) {
         });
       }
     });
+
+    var BITRATE_KEY = 'bit_rate';
+    chrome.storage.local.get(BITRATE_KEY, function(result) {
+      if (result.bit_rate !== undefined) {
+        document.querySelector('#bitrate-picker').value = result[BITRATE_KEY];
+      } else {
+        document.querySelector('#bitrate-picker').value = "115200";
+      }
+    });
   };
   this.sendString_ = function(fromKeyboard, string) {
     console.log('nike' + string);
@@ -78,6 +87,12 @@ window.addEventListener('core-overlay-open', function(e) {
     var port = elem.options[elem.selectedIndex].value;
     var bitelem = document.querySelector('#bitrate-picker');
     var bitrate = Number(bitelem.options[bitelem.selectedIndex].value);
+
+    var BITRATE_KEY = 'bit_rate';
+    var obj = {};
+    obj[BITRATE_KEY] = bitelem.options[bitelem.selectedIndex].value;
+    chrome.storage.local.set(obj);
+
     chrome.serial.connect(port, {'bitrate': bitrate}, function(openInfo) {
       input_output.println('Device found ' + port + ' connection Id ' + openInfo.connectionId);
       self.connectionId = openInfo.connectionId;
