@@ -7,6 +7,10 @@ Install
 Now you can download directly from Chrome Web Store.
 * https://chrome.google.com/webstore/detail/beagle-term/gkdofhllgfohlddimiiildbgoggdpoea
 
+How to build
+--------------
+* Do not run bower update. (latest polymer elements conflicts with BeagleTerm)
+
 This application ..
 ----------------------
 * is a kind of Chrome packaged app.
