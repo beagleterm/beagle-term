@@ -1,3 +1,6 @@
+// Copyright 2015 The Beagle term Authors. All rights reserved.
+// Use of this source code is governed by MIT LICENSE.
+
 chrome.app.runtime.onLaunched.addListener(function() {
   new BeagleWindow();
 });
@@ -7,7 +10,7 @@ var BeagleWindow = function() {
   chrome.app.window.create(
     'build.html',
     {
-      bounds: {
+      outerBounds: {
         width: 1024,
         height: 768
       }
