@@ -2,4 +2,4 @@
 *.swp
 *~
 bower_components/
-npm_modules/
+node_modules/
