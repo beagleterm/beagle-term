@@ -1,5 +1,5 @@
 {
-  "name": "ninjaterm",
+  "name": "beagleterm",
   "version": "1.0.1",
   "description": "<a target=\"_blank\" href=\"https://chrome.google.com/webstore/detail/figjlmomjacpejcemmmfkhnpmndikhcn\">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png \"Click here to install this sample from the Chrome Web Store\")</a>",
   "main": "main.js",
@@ -8,17 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/robdodson/polymerchromeapp.git"
+    "url": "https://github.com/beagleterm/beagle-term.git"
   },
   "author": "",
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/robdodson/polymerchromeapp/issues"
+    "url": "https://github.com/beagleterm/beagle-term/issues"
   },
-  "homepage": "https://github.com/robdodson/polymerchromeapp",
+  "homepage": "https://github.com/beagleterm/beagle-term",
   "devDependencies": {
-    "grunt-vulcanize": "~0.4.0",
-    "grunt": "~0.4.5",
-    "grunt-contrib-watch": "~0.6.1"
+    "grunt": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0"
   }
 }
