@@ -18,6 +18,8 @@
   "homepage": "https://github.com/beagleterm/beagle-term",
   "devDependencies": {
     "grunt": "^1.0.1",
-    "grunt-contrib-watch": "^1.0.0"
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-vulcanize": "^1.0.0"
   }
 }

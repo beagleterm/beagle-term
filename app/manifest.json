@@ -1,7 +1,7 @@
 {
   "minimum_chrome_version": "25",
   "manifest_version": 2,
-  "name": "Beagle Term",
+  "name": "Beagle Term (Beta)",
   "version": "1.6",
   "icons": {
     "128": "images/beagleterm-128.png",
@@ -18,7 +18,7 @@
   ],
   "app": {
     "background": {
-      "scripts": ["background.js"]
+      "scripts": ["js/background.js"]
     }
   }
 }
