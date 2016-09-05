@@ -1,5 +1,6 @@
 # Beagle Term for Serial Communication (BETA)
-=======================================
+===========================================================
+
 ![beagleterm#1](https://lh4.googleusercontent.com/-uQd3jpSrk4w/UHwzxcomb6I/AAAAAAAAGWU/10HMI257zcQ/s580/beagleterm.png)
 
 Install

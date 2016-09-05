@@ -1,7 +1,8 @@
 {
   "name": "beagleterm",
-  "version": "1.0.1",
+  "version": "1.7.0",
   "description": "<a target=\"_blank\" href=\"https://chrome.google.com/webstore/detail/figjlmomjacpejcemmmfkhnpmndikhcn\">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png \"Click here to install this sample from the Chrome Web Store\")</a>",
+  "private": true,
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
