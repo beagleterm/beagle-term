@@ -2,14 +2,14 @@ var input_output;
 var self;
 
 document.addEventListener("DOMContentLoaded", function(){
-    $("#settingsModal").modal("show");
+  $("#settingsModal").modal("show");
 }, false);
 
 // utility. extract to another file.
-var ab2str=function(buf) {
-  var bufView=new Uint8Array(buf);
-  var unis=[];
-  for (var i=0; i<bufView.length; i++) {
+var ab2str = function(buf) {
+  var bufView = new Uint8Array(buf);
+  var unis = [];
+  for (var i = 0; i < bufView.length; i++) {
     unis.push(bufView[i]);
   }
   return String.fromCharCode.apply(null, unis);
@@ -18,7 +18,7 @@ var ab2str=function(buf) {
 var str2ab = function(str) {
   var buf = new ArrayBuffer(str.length);
   var bufView = new Uint8Array(buf);
-  for (var i=0; i<str.length; i++) {
+  for (var i = 0; i < str.length; i++) {
     bufView[i] = str.charCodeAt(i);
   }
   return buf;
@@ -36,7 +36,7 @@ var Crosh = function(argv) {
 
     this.io.onVTKeystroke = this.sendString_.bind(this, true /* fromKeyboard */);
     this.io.sendString = this.sendString_.bind(this, false /* fromKeyboard */);
-    this.io.println("Beagle Term, (Beta). https://github.com/beagleterm/beagle-term");
+    this.io.println("Beagle Term. https://github.com/beagleterm/beagle-term");
     input_output = this.io;
     self = this;
     chrome.serial.getDevices(function(ports) {
