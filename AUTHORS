@@ -1,8 +1,9 @@
-BeagleTerm was originally created in Oct 2012. Below is an list of the
-project's contributors -- people who have submitted patches, and have
-helped to make BeagleTerm a better product.
+# Below is a list of people that have contributed to BeagleTerm project.
+# Names should be added to the list like so:
+#
+#   Name <email address>
 
-Sungguk Lim <sungguk.lim@gmail.com>
-Jungil Han <jungil.han@gmail.com>
 Emanuele Ziglioli <theboss@emanueleziglioli.it>
-Tyler Hughes
+Jungil Han <jungil.han@gmail.com>
+Sungguk Lim <sungguk.lim@gmail.com>
+Tyler Hughes <>
