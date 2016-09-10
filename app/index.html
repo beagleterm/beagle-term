@@ -13,7 +13,7 @@
     <div id="terminal"></div>
 
     <!-- Settings Dialog -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="settingsModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal fade" role="dialog" id="settingsModal" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -54,9 +54,10 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+    <!-- NOTE: Jquery import should come first. Since bootstrap uses jquery -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="js/hterm_all.js"></script>
     <script src="js/index.js"></script>
+    <script src="js/lib/hterm_all.js"></script>
 </body>
 </html>
