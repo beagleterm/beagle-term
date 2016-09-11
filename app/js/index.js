@@ -8,7 +8,13 @@ document.addEventListener("DOMContentLoaded", function(){
   $("#settingsModal").modal("show");
 }, false);
 
-// utility. extract to another file.
+/*
+ *  Utility functions
+ *
+ *  TODO: Extract to another file
+ */
+
+// Convert ArrayBuffer to String.
 var ab2str = function(buf) {
   var bufView = new Uint8Array(buf);
   var unis = [];
@@ -18,6 +24,7 @@ var ab2str = function(buf) {
   return String.fromCharCode.apply(null, unis);
 };
 
+// Convert String to ArrayBuffer
 var str2ab = function(str) {
   var buf = new ArrayBuffer(str.length);
   var bufView = new Uint8Array(buf);
@@ -26,6 +33,14 @@ var str2ab = function(str) {
   }
   return buf;
 };
+
+var getSelectedIndexByValue= function( arr, value ) {
+  for(var i = 0; i < arr.length; i++) {
+    if (arr[i] === value) {
+      return i;
+    }
+  }
+}
 
 var Crosh = function(argv) {
   this.argv_ = argv;
@@ -55,11 +70,53 @@ var Crosh = function(argv) {
       }
     });
 
-    chrome.storage.local.get("bitrate", function(result) {
-      if (result.bit_rate !== undefined) {
-        document.querySelector("#bitrateDropdown").value = result["bitrate"];
+    chrome.storage.local.get("bitrate", function (result) {
+      if (result.bitrate !== undefined) {
+        var bitrateSelectElement = document.querySelector("#bitrateDropdown");
+        bitrateSelectElement.selectedIndex = getSelectedIndexByValue(bitrateSelectElement, result["bitrate"]);
       } else {
-        document.querySelector("#bitrateDropdown").value = "115200";
+        var bitrateSelectElement = document.querySelector("#bitrateDropdown");
+        bitrateSelectElement.selectedIndex = getSelectedIndexByValue(bitrateSelectElement, "115200");
+      }
+    });
+
+    chrome.storage.local.get("dataBits", function (result) {
+      if (result.dataBits !== undefined) {
+        var databitSelectElement = document.querySelector("#databitDropdown");
+        databitSelectElement.selectedIndex = getSelectedIndexByValue(databitSelectElement, result["dataBits"]);
+      } else {
+        var databitSelectElement = document.querySelector("#databitDropdown");
+        databitSelectElement.selectedIndex = getSelectedIndexByValue(databitSelectElement, "eight");
+      }
+    });
+
+    chrome.storage.local.get("parityBit", function (result) {
+      if (result.parityBit !== undefined) {
+        var paritybitSelectElement = document.querySelector("#parityDropdown");
+        paritybitSelectElement.selectedIndex = getSelectedIndexByValue(paritybitSelectElement, result["parityBit"]);
+      } else {
+        var paritybitSelectElement = document.querySelector("#parityDropdown");
+        paritybitSelectElement.selectedIndex = getSelectedIndexByValue(paritybitSelectElement, "no");
+      }
+    });
+
+    chrome.storage.local.get("stopBits", function (result) {
+      if (result.stopBits !== undefined) {
+        var stopbitSelectElement = document.querySelector("#stopbitDropdown");
+        stopbitSelectElement.selectedIndex = getSelectedIndexByValue(stopbitSelectElement, result["stopBits"]);
+      } else {
+        var stopbitSelectElement = document.querySelector("#stopbitDropdown");
+        stopbitSelectElement.selectedIndex = getSelectedIndexByValue(stopbitSelectElement, "one");
+      }
+    });
+
+    chrome.storage.local.get("ctsFlowControl", function (result) {
+      if (result.ctsFlowControl !== undefined) {
+        var flowControlSelectElement = document.querySelector("#flowControlDropdown");
+        flowControlSelectElement.selectedIndex = getSelectedIndexByValue(flowControlSelectElement, result["ctsFlowControl"]);
+      } else {
+        var flowControlSelectElement = document.querySelector("#flowControlDropdown");
+        flowControlSelectElement.selectedIndex = getSelectedIndexByValue(flowControlSelectElement, "false");
       }
     });
   };
