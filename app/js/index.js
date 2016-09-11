@@ -55,10 +55,9 @@ var Crosh = function(argv) {
       }
     });
 
-    var BITRATE_KEY = "bit_rate";
-    chrome.storage.local.get(BITRATE_KEY, function(result) {
+    chrome.storage.local.get("bitrate", function(result) {
       if (result.bit_rate !== undefined) {
-        document.querySelector("#bitrateDropdown").value = result[BITRATE_KEY];
+        document.querySelector("#bitrateDropdown").value = result["bitrate"];
       } else {
         document.querySelector("#bitrateDropdown").value = "115200";
       }
@@ -89,18 +88,49 @@ document.querySelector("#connectBtn").addEventListener("click", function(event) 
   if (!input_output)
     return;
 
-    var elem = document.querySelector("#portDropdown");
-    var port = elem.options[elem.selectedIndex].value;
+    // Get the serial port (i.e. COM1, COM2, COM3, etc.)
+    var portElement = document.querySelector("#portDropdown");
+    var port = portElement.options[portElement.selectedIndex].value;
 
-    var bitelem = document.querySelector("#bitrateDropdown");
-    var bitrate = Number(bitelem.options[bitelem.selectedIndex].value);
+    // Get the baud rate (i.e. 9600, 38400, 57600, 115200, etc. )
+    var bitrateElement = document.querySelector("#bitrateDropdown");
+    var bitrate = Number(bitrateElement.options[bitrateElement.selectedIndex].value);
 
-    var BITRATE_KEY = "bit_rate";
-    var obj = {};
-    obj[BITRATE_KEY] = bitelem.options[bitelem.selectedIndex].value;
-    chrome.storage.local.set(obj);
+    // Get the data bit (i.e. "seven" or "eight")
+    var databitElement = document.querySelector("#databitDropdown");
+    var databit = databitElement.options[databitElement.selectedIndex].value;
 
-    chrome.serial.connect(port, {"bitrate": bitrate}, function(openInfo) {
+    // Get the parity bit (i.e. "no", "odd", or "even")
+    var paritybitElement = document.querySelector("#parityDropdown");
+    var parity = paritybitElement.options[paritybitElement.selectedIndex].value;
+
+    // Get the stop bit (i.e. "one" or "two")
+    var stopbitElement = document.querySelector("#stopbitDropdown");
+    var stopbit = stopbitElement.options[stopbitElement.selectedIndex].value;
+
+    // Get the flow control value (i.e. true or false)
+    var flowControlElement = document.querySelector("#flowControlDropdown");
+    var flowControlValue = flowControlElement.options[flowControlElement.selectedIndex].value;
+    var flowControl = (flowControlValue === "true");
+
+    var settings = {
+      bitrate: bitrateElement.options[bitrateElement.selectedIndex].value,
+      dataBits: databit,
+      parityBit: parityBit,
+      stopBits: stopbit,
+      ctsFlowControl: flowControl
+    };
+
+    // settings[BITRATE_KEY] = bitrateElement.options[bitrateElement.selectedIndex].value;
+    chrome.storage.local.set(settings);
+
+    chrome.serial.connect(port, {
+      "bitrate": settings.bitrate,
+      "dataBits": settings.dataBits,
+      "parityBit": settings.parityBit,
+      "stopBits": settings.stopBits,
+      "ctsFlowControl": settings.ctsFlowControl
+    }, function(openInfo) {
       input_output.println("Device found on " + port + " via Connection ID " + openInfo.connectionId);
       self.connectionId = openInfo.connectionId;
       AddConnectedSerialId(openInfo.connectionId);
