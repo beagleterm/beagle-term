@@ -34,9 +34,10 @@ var str2ab = function(str) {
   return buf;
 };
 
-var getSelectedIndexByValue= function( arr, value ) {
-  for(var i = 0; i < arr.length; i++) {
-    if (arr[i] === value) {
+var getIndexByValue= function( element, value ) {
+  var list = element.options;
+  for(var i = 0; i < list.length; i++) {
+    if (list[i].value === value) {
       return i;
     }
   }
@@ -57,15 +58,14 @@ var Crosh = function(argv) {
     this.io.println("Beagle Term. https://github.com/beagleterm/beagle-term");
     input_output = this.io;
     self = this;
-    chrome.serial.getDevices(function(ports) {
-      var eligiblePorts = ports;
 
-      if (eligiblePorts.length > 0) {
-        eligiblePorts.forEach(function(portNames) {
+    chrome.serial.getDevices(function (ports) {
+      if (ports.length > 0) {
+        ports.forEach(function (portNames) {
           var portPicker = document.querySelector("#portDropdown");
           var portName = portNames.path;
           portPicker.innerHTML = portPicker.innerHTML + '<option value="' +
-                                 portName +'">' + portName + '</option>';
+            portName + '">' + portName + '</option>';
         });
       }
     });
@@ -73,50 +73,50 @@ var Crosh = function(argv) {
     chrome.storage.local.get("bitrate", function (result) {
       if (result.bitrate !== undefined) {
         var bitrateSelectElement = document.querySelector("#bitrateDropdown");
-        bitrateSelectElement.selectedIndex = getSelectedIndexByValue(bitrateSelectElement, result["bitrate"]);
+        bitrateSelectElement.selectedIndex = getIndexByValue(bitrateSelectElement, result["bitrate"]);
       } else {
         var bitrateSelectElement = document.querySelector("#bitrateDropdown");
-        bitrateSelectElement.selectedIndex = getSelectedIndexByValue(bitrateSelectElement, "115200");
+        bitrateSelectElement.selectedIndex = getIndexByValue(bitrateSelectElement, "115200");
       }
     });
 
     chrome.storage.local.get("dataBits", function (result) {
       if (result.dataBits !== undefined) {
         var databitSelectElement = document.querySelector("#databitDropdown");
-        databitSelectElement.selectedIndex = getSelectedIndexByValue(databitSelectElement, result["dataBits"]);
+        databitSelectElement.selectedIndex = getIndexByValue(databitSelectElement, result["dataBits"]);
       } else {
         var databitSelectElement = document.querySelector("#databitDropdown");
-        databitSelectElement.selectedIndex = getSelectedIndexByValue(databitSelectElement, "eight");
+        databitSelectElement.selectedIndex = getIndexByValue(databitSelectElement, "eight");
       }
     });
 
     chrome.storage.local.get("parityBit", function (result) {
       if (result.parityBit !== undefined) {
         var paritybitSelectElement = document.querySelector("#parityDropdown");
-        paritybitSelectElement.selectedIndex = getSelectedIndexByValue(paritybitSelectElement, result["parityBit"]);
+        paritybitSelectElement.selectedIndex = getIndexByValue(paritybitSelectElement, result["parityBit"]);
       } else {
         var paritybitSelectElement = document.querySelector("#parityDropdown");
-        paritybitSelectElement.selectedIndex = getSelectedIndexByValue(paritybitSelectElement, "no");
+        paritybitSelectElement.selectedIndex = getIndexByValue(paritybitSelectElement, "no");
       }
     });
 
     chrome.storage.local.get("stopBits", function (result) {
       if (result.stopBits !== undefined) {
         var stopbitSelectElement = document.querySelector("#stopbitDropdown");
-        stopbitSelectElement.selectedIndex = getSelectedIndexByValue(stopbitSelectElement, result["stopBits"]);
+        stopbitSelectElement.selectedIndex = getIndexByValue(stopbitSelectElement, result["stopBits"]);
       } else {
         var stopbitSelectElement = document.querySelector("#stopbitDropdown");
-        stopbitSelectElement.selectedIndex = getSelectedIndexByValue(stopbitSelectElement, "one");
+        stopbitSelectElement.selectedIndex = getIndexByValue(stopbitSelectElement, "one");
       }
     });
 
     chrome.storage.local.get("ctsFlowControl", function (result) {
       if (result.ctsFlowControl !== undefined) {
         var flowControlSelectElement = document.querySelector("#flowControlDropdown");
-        flowControlSelectElement.selectedIndex = getSelectedIndexByValue(flowControlSelectElement, result["ctsFlowControl"]);
+        flowControlSelectElement.selectedIndex = getIndexByValue(flowControlSelectElement, result["ctsFlowControl"]);
       } else {
         var flowControlSelectElement = document.querySelector("#flowControlDropdown");
-        flowControlSelectElement.selectedIndex = getSelectedIndexByValue(flowControlSelectElement, "false");
+        flowControlSelectElement.selectedIndex = getIndexByValue(flowControlSelectElement, false);
       }
     });
   };
@@ -171,9 +171,9 @@ document.querySelector("#connectBtn").addEventListener("click", function(event) 
     var flowControl = (flowControlValue === "true");
 
     var settings = {
-      bitrate: bitrateElement.options[bitrateElement.selectedIndex].value,
+      bitrate: bitrate,
       dataBits: databit,
-      parityBit: parityBit,
+      parityBit: parity,
       stopBits: stopbit,
       ctsFlowControl: flowControl
     };
@@ -182,11 +182,11 @@ document.querySelector("#connectBtn").addEventListener("click", function(event) 
     chrome.storage.local.set(settings);
 
     chrome.serial.connect(port, {
-      "bitrate": settings.bitrate,
-      "dataBits": settings.dataBits,
-      "parityBit": settings.parityBit,
-      "stopBits": settings.stopBits,
-      "ctsFlowControl": settings.ctsFlowControl
+      "bitrate": bitrate,
+      "dataBits": databit,
+      "parityBit": parity,
+      "stopBits": stopbit,
+      "ctsFlowControl": flowControl
     }, function(openInfo) {
       input_output.println("Device found on " + port + " via Connection ID " + openInfo.connectionId);
       self.connectionId = openInfo.connectionId;
