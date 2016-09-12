@@ -1,5 +1,6 @@
-// Copyright 2016 The Beagle term Authors. All rights reserved.
-// Use of this source code is governed by BSD LICENSE.
+// Copyright (c) 2012, Sungguk Lim. Please see the AUTHORS file for details.
+// All rights reserved. Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 var input_output;
 var self;
