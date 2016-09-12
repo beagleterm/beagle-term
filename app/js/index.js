@@ -1,6 +1,8 @@
 // Copyright 2016 The Beagle term Authors. All rights reserved.
 // Use of this source code is governed by BSD LICENSE.
 
+// <include src="../js/assert.js">
+
 var input_output;
 var self;
 
@@ -14,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function(){
  *  TODO: Extract to another file
  */
 
-// Convert ArrayBuffer to String.
+// Converts ArrayBuffer to String.
 var ab2str = function(buf) {
   var bufView = new Uint8Array(buf);
   var unis = [];
@@ -24,7 +26,7 @@ var ab2str = function(buf) {
   return String.fromCharCode.apply(null, unis);
 };
 
-// Convert String to ArrayBuffer.
+// Converts String to ArrayBuffer.
 var str2ab = function(str) {
   var buf = new ArrayBuffer(str.length);
   var bufView = new Uint8Array(buf);
@@ -34,13 +36,14 @@ var str2ab = function(str) {
   return buf;
 };
 
-var getIndexByValue = function( element, value ) {
+var getIndexByValue = function(element, value) {
   var list = element.options;
   for(var i = 0; i < list.length; i++) {
     if (list[i].value === value) {
       return i;
     }
   }
+  assertNotReached();
 }
 
 var Crosh = function(argv) {
@@ -116,7 +119,7 @@ var Crosh = function(argv) {
         flowControlSelectElement.selectedIndex = getIndexByValue(flowControlSelectElement, result["ctsFlowControl"]);
       } else {
         var flowControlSelectElement = document.querySelector("#flowControlDropdown");
-        flowControlSelectElement.selectedIndex = getIndexByValue(flowControlSelectElement, false);
+        flowControlSelectElement.selectedIndex = getIndexByValue(flowControlSelectElement, "false");
       }
     });
   };
