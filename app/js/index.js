@@ -34,7 +34,7 @@ var str2ab = function(str) {
   return buf;
 };
 
-var getIndexByValue= function( element, value ) {
+var getIndexByValue = function( element, value ) {
   var list = element.options;
   for(var i = 0; i < list.length; i++) {
     if (list[i].value === value) {
