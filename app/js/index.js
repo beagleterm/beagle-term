@@ -24,7 +24,7 @@ var ab2str = function(buf) {
   return String.fromCharCode.apply(null, unis);
 };
 
-// Convert String to ArrayBuffer
+// Convert String to ArrayBuffer.
 var str2ab = function(str) {
   var buf = new ArrayBuffer(str.length);
   var bufView = new Uint8Array(buf);
