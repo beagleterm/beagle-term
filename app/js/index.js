@@ -73,10 +73,12 @@ var Crosh = function(argv) {
       }
     });
 
+    // TODO: Pass json object instead of each element('bitrate', 'dataBits' ..)
     chrome.storage.local.get("bitrate", function (result) {
       if (result.bitrate !== undefined) {
         var bitrateSelectElement = document.querySelector("#bitrateDropdown");
-        bitrateSelectElement.selectedIndex = getIndexByValue(bitrateSelectElement, result["bitrate"]);
+        bitrateSelectElement.selectedIndex =
+            getIndexByValue(bitrateSelectElement, result["bitrate"].toString());
       } else {
         var bitrateSelectElement = document.querySelector("#bitrateDropdown");
         bitrateSelectElement.selectedIndex = getIndexByValue(bitrateSelectElement, "115200");
@@ -116,17 +118,19 @@ var Crosh = function(argv) {
     chrome.storage.local.get("ctsFlowControl", function (result) {
       if (result.ctsFlowControl !== undefined) {
         var flowControlSelectElement = document.querySelector("#flowControlDropdown");
-        flowControlSelectElement.selectedIndex = getIndexByValue(flowControlSelectElement, result["ctsFlowControl"]);
+        flowControlSelectElement.selectedIndex =
+            getIndexByValue(flowControlSelectElement, result["ctsFlowControl"].toString());
       } else {
         var flowControlSelectElement = document.querySelector("#flowControlDropdown");
         flowControlSelectElement.selectedIndex = getIndexByValue(flowControlSelectElement, "false");
       }
     });
   };
+
   this.sendString_ = function(fromKeyboard, string) {
-    console.log("nike" + string);
     chrome.serial.send(self.connectionId, str2ab(string), function () { });
   };
+
   this.exit = function(code) {
   };
 };
@@ -149,8 +153,9 @@ document.querySelector("#connectBtn").addEventListener("click", function(event) 
     return;
 
     // Get the serial port (i.e. COM1, COM2, COM3, etc.)
-    var portElement = document.querySelector("#portDropdown");
-    var port = portElement.options[portElement.selectedIndex].value;
+    //var portElement = document.querySelector("#portDropdown");
+    //var port = portElement.options[portElement.selectedIndex].value;
+    var port = "COM1";
 
     // Get the baud rate (i.e. 9600, 38400, 57600, 115200, etc. )
     var bitrateElement = document.querySelector("#bitrateDropdown");
@@ -173,6 +178,9 @@ document.querySelector("#connectBtn").addEventListener("click", function(event) 
     var flowControlValue = flowControlElement.options[flowControlElement.selectedIndex].value;
     var flowControl = (flowControlValue === "true");
 
+    // Format is ...
+    // settings = Object {bitrate: 14400, dataBits: "eight", parityBit: "odd",
+    // stopBits: "two", ctsFlowControl: true}
     var settings = {
       bitrate: bitrate,
       dataBits: databit,
@@ -181,16 +189,21 @@ document.querySelector("#connectBtn").addEventListener("click", function(event) 
       ctsFlowControl: flowControl
     };
 
-    // settings[BITRATE_KEY] = bitrateElement.options[bitrateElement.selectedIndex].value;
     chrome.storage.local.set(settings);
 
     chrome.serial.connect(port, {
-      "bitrate": bitrate,
-      "dataBits": databit,
-      "parityBit": parity,
-      "stopBits": stopbit,
-      "ctsFlowControl": flowControl
+      "bitrate": settings.bitrate,
+      "dataBits": settings.dataBits,
+      "parityBit": settings.parityBit,
+      "stopBits": settings.stopBits,
+      "ctsFlowControl": settings.ctsFlowControl
     }, function(openInfo) {
+      if (openInfo === undefined) {
+        input_output.println("Unable to connect to with value" + settings.toString());
+        // TODO: Open 'connection dialog' again.
+        return;
+      }
+
       input_output.println("Device found on " + port + " via Connection ID " + openInfo.connectionId);
       self.connectionId = openInfo.connectionId;
       AddConnectedSerialId(openInfo.connectionId);
