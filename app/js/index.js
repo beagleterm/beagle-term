@@ -153,9 +153,8 @@ document.querySelector("#connectBtn").addEventListener("click", function(event) 
     return;
 
     // Get the serial port (i.e. COM1, COM2, COM3, etc.)
-    //var portElement = document.querySelector("#portDropdown");
-    //var port = portElement.options[portElement.selectedIndex].value;
-    var port = "COM1";
+    var portElement = document.querySelector("#portDropdown");
+    var port = portElement.options[portElement.selectedIndex].value;
 
     // Get the baud rate (i.e. 9600, 38400, 57600, 115200, etc. )
     var bitrateElement = document.querySelector("#bitrateDropdown");
