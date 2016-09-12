@@ -1,11 +1,11 @@
 // Copyright 2015 The Beagle term Authors. All rights reserved.
 // Use of this source code is governed by MIT LICENSE.
 
-chrome.app.runtime.onLaunched.addListener(function () {
+chrome.app.runtime.onLaunched.addListener(function() {
   new BeagleWindow();
 });
 
-var BeagleWindow = function () {
+var BeagleWindow = function() {
   var connectedSerialId = 0;
   chrome.app.window.create(
     "index.html",
@@ -15,12 +15,12 @@ var BeagleWindow = function () {
         height: 768
       }
     },
-    function (window) {
-      window.contentWindow.AddConnectedSerialId = function (id) {
+    function(window) {
+      window.contentWindow.AddConnectedSerialId = function(id) {
         connectedSerialId = id;
       };
-      window.onClosed.addListener(function () {
-        chrome.serial.disconnect(connectedSerialId, function () {
+      window.onClosed.addListener(function() {
+        chrome.serial.disconnect(connectedSerialId, function() {
         });
       });
     }
