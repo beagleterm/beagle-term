@@ -22,13 +22,13 @@
                 <div class="modal-body">
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <label id="portLabel" class="control-label col-sm-2">PORT</label>
+                            <label id="portLabel" class="control-label col-sm-2">Port</label>
                             <div class="col-sm-10">
                                 <select id="portDropdown" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label id="bitrateLabel" class="control-label col-sm-2">BITRATE</label>
+                            <label id="bitrateLabel" class="control-label col-sm-2">Bitrate</label>
                             <div class="col-sm-10">
                                 <select id="bitrateDropdown" class="form-control">
                                     <option value="110">110</option>
@@ -42,6 +42,43 @@
                                     <option value="38400">38400</option>
                                     <option value="57600">57600</option>
                                     <option value="115200">115200</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label id="databitLabel" class="control-label col-sm-2">Data Bit</label>
+                            <div class="col-sm-10">
+                                <select id="databitDropdown" class="form-control">
+                                    <option value="seven">7 bit</option>
+                                    <option value="eight">8 bit</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label id="parityLabel" class="control-label col-sm-2">Parity</label>
+                            <div class="col-sm-10">
+                                <select id="parityDropdown" class="form-control">
+                                    <option value="no">none</option>
+                                    <option value="odd">odd</option>
+                                    <option value="even">even</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label id="stopbitLabel" class="control-label col-sm-2">Stop Bit</label>
+                            <div class="col-sm-10">
+                                <select id="stopbitDropdown" class="form-control">
+                                    <option value="one">1 bit</option>
+                                    <option value="two">2 bit</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label id="flowControlLabel" class="control-label col-sm-2">Flow Control</label>
+                            <div class="col-sm-10">
+                                <select id="flowControlDropdown" class="form-control">
+                                    <option value="true">RTS/CTS hardware</option>
+                                    <option value="false">none</option>
                                 </select>
                             </div>
                         </div>
@@ -60,6 +97,7 @@
 
     <!-- NOTE: hterm import should come first. Since index.js uses hterm -->
     <script src="js/lib/hterm_all.js"></script>
+    <script src="js/assert.js"></script>
     <script src="js/index.js"></script>
 </body>
 </html>

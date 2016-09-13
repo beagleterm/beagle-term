@@ -16,12 +16,12 @@ var BeagleWindow = function() {
         height: 768
       }
     },
-    function(win) {
-      win.contentWindow.AddConnectedSerialId = function(id) {
+    function(window) {
+      window.contentWindow.AddConnectedSerialId = function(id) {
         connectedSerialId = id;
       };
-      win.onClosed.addListener(function() {
-        chrome.serial.disconnect(connectedSerialId, function () {
+      window.onClosed.addListener(function() {
+        chrome.serial.disconnect(connectedSerialId, function() {
         });
       });
     }
