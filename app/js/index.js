@@ -1,8 +1,6 @@
 // Copyright 2016 The Beagle term Authors. All rights reserved.
 // Use of this source code is governed by BSD LICENSE.
 
-// <include src="../js/assert.js">
-
 var input_output;
 var self;
 
@@ -43,7 +41,6 @@ var getIndexByValue = function(element, value) {
       return i;
     }
   }
-  assertNotReached();
 }
 
 var Crosh = function(argv) {
