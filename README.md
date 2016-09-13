@@ -28,8 +28,3 @@ This application ..
 License
 ----------
 * BSD license.
-
-TO DO LIST
-------------
-* Fix grammertical mistake on my English document or comment or source code.
-* Need to create dialogs showing information(for exmaple, connection ports..)
