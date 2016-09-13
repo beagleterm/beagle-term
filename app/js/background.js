@@ -9,7 +9,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
 var BeagleWindow = function() {
   var connectedSerialId = 0;
   chrome.app.window.create(
-    "index.html",
+    'index.html',
     {
       outerBounds: {
         width: 1024,
@@ -26,4 +26,4 @@ var BeagleWindow = function() {
       });
     }
   );
-}
+};
