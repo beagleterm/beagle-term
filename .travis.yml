@@ -6,4 +6,4 @@ before_script:
   - npm install grunt-cli -g
 
 
-script: cd app && npm test
+script: cd app && grunt test
