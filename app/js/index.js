@@ -2,7 +2,7 @@
 // All rights reserved. Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-var input_output;
+var inputOutput;
 var self;
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -57,7 +57,7 @@ var Crosh = function(argv) {
     this.io.onVTKeystroke = this.sendString_.bind(this, true /* fromKeyboard */);
     this.io.sendString = this.sendString_.bind(this, false /* fromKeyboard */);
     this.io.println('Beagle Term. https://github.com/beagleterm/beagle-term');
-    input_output = this.io;
+    inputOutput = this.io;
     self = this;
 
     chrome.serial.getDevices(function(ports) {
@@ -79,7 +79,8 @@ var Crosh = function(argv) {
         bitrateSelectElement.selectedIndex =
             getIndexByValue(bitrateSelectElement, result.bitrate.toString());
       } else {
-        bitrateSelectElement.selectedIndex = getIndexByValue(bitrateSelectElement, '115200');
+        bitrateSelectElement.selectedIndex =
+          getIndexByValue(bitrateSelectElement, '115200');
       }
     });
 
@@ -87,9 +88,11 @@ var Crosh = function(argv) {
       var databitSelectElement = document.querySelector('#databitDropdown');
 
       if (result.dataBits !== undefined) {
-        databitSelectElement.selectedIndex = getIndexByValue(databitSelectElement, result.dataBits);
+        databitSelectElement.selectedIndex =
+          getIndexByValue(databitSelectElement, result.dataBits);
       } else {
-        databitSelectElement.selectedIndex = getIndexByValue(databitSelectElement, 'eight');
+        databitSelectElement.selectedIndex =
+                getIndexByValue(databitSelectElement, 'eight');
       }
     });
 
@@ -97,28 +100,33 @@ var Crosh = function(argv) {
       var paritybitSelectElement = document.querySelector('#parityDropdown');
 
       if (result.parityBit !== undefined) {
-        paritybitSelectElement.selectedIndex = getIndexByValue(paritybitSelectElement, result.parityBit);
+        paritybitSelectElement.selectedIndex =
+                getIndexByValue(paritybitSelectElement, result.parityBit);
       } else {
-        paritybitSelectElement.selectedIndex = getIndexByValue(paritybitSelectElement, 'no');
+        paritybitSelectElement.selectedIndex =
+                getIndexByValue(paritybitSelectElement, 'no');
       }
     });
 
     chrome.storage.local.get('stopBits', function(result) {
       var stopbitSelectElement = document.querySelector('#stopbitDropdown');
       if (result.stopBits !== undefined) {
-        stopbitSelectElement.selectedIndex = getIndexByValue(stopbitSelectElement, result.stopBits);
+        stopbitSelectElement.selectedIndex =
+                getIndexByValue(stopbitSelectElement, result.stopBits);
       } else {
-        stopbitSelectElement.selectedIndex = getIndexByValue(stopbitSelectElement, 'one');
+        stopbitSelectElement.selectedIndex =
+                getIndexByValue(stopbitSelectElement, 'one');
       }
     });
 
     chrome.storage.local.get('ctsFlowControl', function(result) {
-      var flowControlSelectElement = document.querySelector('#flowControlDropdown');
+      var fcSelectElement = document.querySelector('#flowControlDropdown');
       if (result.ctsFlowControl !== undefined) {
-        flowControlSelectElement.selectedIndex =
-            getIndexByValue(flowControlSelectElement, result.ctsFlowControl.toString());
+        fcSelectElement.selectedIndex =
+            getIndexByValue(fcSelectElement, result.ctsFlowControl.toString());
       } else {
-        flowControlSelectElement.selectedIndex = getIndexByValue(flowControlSelectElement, 'false');
+        fcSelectElement.selectedIndex =
+                getIndexByValue(fcSelectElement, 'false');
       }
     });
   };
@@ -143,18 +151,20 @@ window.onload = function() {
 };
 
 // Closes the settings dialog
-document.querySelector('#connectBtn').addEventListener('click', function(event) {
-  // If |input_output| is null, it means hterm is not ready yet.
-  if (!input_output)
+var connectBtn = document.querySelector('#connectBtn');
+connectBtn.addEventListener('click', function(event) {
+  // If |inputOutput| is null, it means hterm is not ready yet.
+  if (!inputOutput) {
     return;
+  }
 
   // Get the serial port (i.e. COM1, COM2, COM3, etc.)
   var portElement = document.querySelector('#portDropdown');
   var port = portElement.options[portElement.selectedIndex].value;
 
   // Get the baud rate (i.e. 9600, 38400, 57600, 115200, etc. )
-  var bitrateElement = document.querySelector('#bitrateDropdown');
-  var bitrate = Number(bitrateElement.options[bitrateElement.selectedIndex].value);
+  var baudElement = document.querySelector('#bitrateDropdown');
+  var bitrate = Number(baudElement.options[baudElement.selectedIndex].value);
 
   // Get the data bit (i.e. "seven" or "eight")
   var databitElement = document.querySelector('#databitDropdown');
@@ -169,8 +179,8 @@ document.querySelector('#connectBtn').addEventListener('click', function(event) 
   var stopbit = stopbitElement.options[stopbitElement.selectedIndex].value;
 
   // Get the flow control value (i.e. true or false)
-  var flowControlElement = document.querySelector('#flowControlDropdown');
-  var flowControlValue = flowControlElement.options[flowControlElement.selectedIndex].value;
+  var fcElement = document.querySelector('#flowControlDropdown');
+  var flowControlValue = fcElement.options[fcElement.selectedIndex].value;
   var flowControl = (flowControlValue === 'true');
 
   // Format is ...
@@ -194,17 +204,19 @@ document.querySelector('#connectBtn').addEventListener('click', function(event) 
     'ctsFlowControl': settings.ctsFlowControl
   }, function(openInfo) {
     if (openInfo === undefined) {
-      input_output.println('Unable to connect to with value' + settings.toString());
+      inputOutput.println('Unable to connect to device with value' +
+          settings.toString());
       // TODO: Open 'connection dialog' again.
       return;
     }
 
-    input_output.println('Device found on ' + port + ' via Connection ID ' + openInfo.connectionId);
+    inputOutput.println('Device found on ' + port +
+              ' via Connection ID ' + openInfo.connectionId);
     self.connectionId = openInfo.connectionId;
     AddConnectedSerialId(openInfo.connectionId);
     chrome.serial.onReceive.addListener(function(info) {
       if (info && info.data) {
-        input_output.print(ab2str(info.data));
+        inputOutput.print(ab2str(info.data));
       }
     });
   });
