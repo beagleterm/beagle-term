@@ -1,7 +1,10 @@
-# Beagle Term for Serial Communication
+Beagle Term for Serial Communication
 ======================================
+[![Build Status -](https://travis-ci.org/beagleterm/beagle-term.svg?branch=master)](https://travis-ci.org/beagleterm/beagle-term.svg)
 
 ![beagleterm#1](https://lh4.googleusercontent.com/-uQd3jpSrk4w/UHwzxcomb6I/AAAAAAAAGWU/10HMI257zcQ/s580/beagleterm.png)
+
+
 
 Install
 ---------
