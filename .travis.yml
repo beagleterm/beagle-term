@@ -6,4 +6,4 @@ before_script:
   - npm install grunt-cli -g
   - npm install bower -g
 
-script: cd app && npm install && grunt test
+script: cd app && npm install && grunt test --force
