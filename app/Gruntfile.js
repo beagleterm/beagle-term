@@ -5,9 +5,7 @@ module.exports = function(grunt) {
     pkg: '<json:package.json>',
     jshint: {
       all: {
-        src: [
-          'js/index.js', 'js/main.js'
-        ]
+        src: ['js/*.js']
       }
     },
     jscs: {
@@ -18,7 +16,7 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-        files: ['js/index.js', 'js/main.js'],
+        files: ['js/index.js', 'js/background.js'],
         tasks: ['jshint', 'jscs']
       }
   });
