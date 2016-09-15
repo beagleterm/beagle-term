@@ -5,7 +5,7 @@
   "private": true,
   "main": "main.js",
   "scripts": {
-    "postinstall": "bower install"
+    "postinstall": "bower install && find . -name \"*.pem\" -type f -delete"
   },
   "repository": {
     "type": "git",
