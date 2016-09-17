@@ -14,7 +14,7 @@ def pushd(path):
 
 def installDependencies():
   with pushd('app'):
-    subprocess.check_call(['bower', 'install'])
+    subprocess.check_call('bower install', shell=True)
 
 def copy(src, des):
   if os.path.isdir(src):
@@ -25,8 +25,7 @@ def copy(src, des):
     shutil.copy2(src, des)
 
 def zip(destFile):
-  os.chdir('deploy')
-  subprocess.check_call(['zip', destFile, '.', '-qr', '-x', '.*'])
+  shutil.make_archive(destFile, 'zip', 'deploy')
 
 def copyDeployFiles():
   os.makedirs('deploy')
@@ -47,7 +46,7 @@ def main():
   installDependencies()
   copyDeployFiles()
   # TODO: Minify js/index.js, js/background.js
-  zip('build.zip')
+  zip('archive')
 
 if __name__ == '__main__':
   main()
