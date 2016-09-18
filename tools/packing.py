@@ -12,11 +12,16 @@ def pushd(path):
   yield
   os.chdir(currentDir)
 
+def printInfo(message):
+  print os.path.basename(__file__) + ' >> ' + message
+
 def installDependencies():
+  printInfo('Start bower install')
   with pushd('app'):
     subprocess.check_call('bower install', shell=True)
 
 def copy(src, des):
+  printInfo('Copying ' + src + ' to ' + des)
   if os.path.isdir(src):
     shutil.copytree(src, des)
   else:
@@ -25,7 +30,9 @@ def copy(src, des):
     shutil.copy2(src, des)
 
 def zip(destFile):
+  printInfo('Start zipping deploy directory')
   shutil.make_archive(destFile, 'zip', 'deploy')
+  printInfo('Created ' + destFile + '.zip')
 
 def copyDeployFiles():
   os.makedirs('deploy')
