@@ -5,6 +5,9 @@ import shutil
 import subprocess
 from contextlib import contextmanager
 
+SOURCE_DIR = os.path.join(os.getcwd(), 'app')
+BUILD_DIR = os.path.join(os.getcwd(), 'build')
+
 @contextmanager
 def pushd(path):
   currentDir = os.getcwd()
@@ -31,13 +34,16 @@ def copy(src, des):
 
 def zip(destFile):
   printInfo('Start zipping build directory')
-  shutil.make_archive(destFile, 'zip', 'build')
+  shutil.make_archive(destFile, 'zip', BUILD_DIR)
   printInfo('Created ' + destFile + '.zip')
 
 def copyDeployFiles():
-  os.makedirs('build')
-  source_dir = os.path.join(os.getcwd(), 'app')
-  target_dir = os.path.join(os.getcwd(), 'build')
+
+  if (os.path.exists(BUILD_DIR)):
+    printInfo('Deleting existing ' + str(BUILD_DIR))
+    shutil.rmtree(BUILD_DIR)
+  printInfo('Creating ' + str(BUILD_DIR))
+  os.makedirs(BUILD_DIR)
 
   copy_list = ['index.html', 'manifest.json', 'js/index.js', 'js/background.js', 'js/lib/hterm_all.min.js',
                 'css/main.css', 'images', 'bower_components/jquery/dist/jquery.min.js',
@@ -45,8 +51,8 @@ def copyDeployFiles():
                'bower_components/bootstrap/dist/css/bootstrap.min.css']
 
   for single_file in copy_list:
-    source_path = os.path.join(source_dir, single_file)
-    target_path = os.path.join(target_dir, single_file)
+    source_path = os.path.join(SOURCE_DIR, single_file)
+    target_path = os.path.join(BUILD_DIR, single_file)
     copy(source_path, target_path)
 
 def main():
