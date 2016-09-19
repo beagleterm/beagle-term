@@ -30,14 +30,14 @@ def copy(src, des):
     shutil.copy2(src, des)
 
 def zip(destFile):
-  printInfo('Start zipping deploy directory')
-  shutil.make_archive(destFile, 'zip', 'deploy')
+  printInfo('Start zipping build directory')
+  shutil.make_archive(destFile, 'zip', 'build')
   printInfo('Created ' + destFile + '.zip')
 
 def copyDeployFiles():
-  os.makedirs('deploy')
+  os.makedirs('build')
   source_dir = os.path.join(os.getcwd(), 'app')
-  target_dir = os.path.join(os.getcwd(), 'deploy')
+  target_dir = os.path.join(os.getcwd(), 'build')
 
   copy_list = ['index.html', 'manifest.json', 'js/index.js', 'js/background.js', 'js/lib/hterm_all.min.js',
                 'css/main.css', 'images', 'bower_components/jquery/dist/jquery.min.js',
