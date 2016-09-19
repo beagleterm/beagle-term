@@ -5,7 +5,7 @@ node_js:
 before_script:
   - npm install grunt-cli -g
   - npm install bower -g
-  - pip install pylint && pylint --version
+  - sudo pip install pylint && pylint --version
 
 script:
   - pylint tools/packing.py
