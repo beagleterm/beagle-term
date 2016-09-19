@@ -32,7 +32,7 @@ def copy(src, des):
       os.makedirs(os.path.dirname(des))
     shutil.copy2(src, des)
 
-def zip(destFile):
+def _zip(destFile):
   printInfo('Start zipping build directory')
   shutil.make_archive(destFile, 'zip', BUILD_DIR)
   printInfo('Created ' + destFile + '.zip')
@@ -45,10 +45,11 @@ def copyDeployFiles():
   printInfo('Creating ' + str(BUILD_DIR))
   os.makedirs(BUILD_DIR)
 
-  copy_list = ['index.html', 'manifest.json', 'js/index.js', 'js/background.js', 'js/lib/hterm_all.min.js',
-                'css/main.css', 'images', 'bower_components/jquery/dist/jquery.min.js',
-               'bower_components/bootstrap/dist/js/bootstrap.min.js',
-               'bower_components/bootstrap/dist/css/bootstrap.min.css']
+  copy_list = ['index.html', 'manifest.json', 'js/index.js', 'js/background.js',
+      'js/lib/hterm_all.min.js', 'css/main.css', 'images',
+      'bower_components/jquery/dist/jquery.min.js',
+      'bower_components/bootstrap/dist/js/bootstrap.min.js',
+      'bower_components/bootstrap/dist/css/bootstrap.min.css']
 
   for single_file in copy_list:
     source_path = os.path.join(SOURCE_DIR, single_file)
@@ -59,7 +60,7 @@ def main():
   installDependencies()
   copyDeployFiles()
   # TODO: Minify js/index.js, js/background.js
-  zip('archive')
+  _zip('archive')
 
 if __name__ == '__main__':
   main()
