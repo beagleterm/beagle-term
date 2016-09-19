@@ -2,10 +2,13 @@ language: node_js
 node_js:
   - 0.10
 
-before_script:
+install:
   - npm install grunt-cli -g
   - npm install bower -g
-  - sudo pip install pylint && pylint --version 1>&2
+  - sudo pip install pylint
+
+before_script:
+  - pylint --version
 
 script:
   - pylint tools/packing.py
