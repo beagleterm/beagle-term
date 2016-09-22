@@ -38,7 +38,6 @@ def _zip(destFile):
   printInfo('Created ' + destFile + '.zip')
 
 def copyDeployFiles():
-
   if (os.path.exists(BUILD_DIR)):
     printInfo('Deleting existing ' + str(BUILD_DIR))
     shutil.rmtree(BUILD_DIR)
