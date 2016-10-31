@@ -11,10 +11,11 @@ Install
 Now you can download directly from Chrome Web Store.
 * https://chrome.google.com/webstore/detail/beagle-term/gkdofhllgfohlddimiiildbgoggdpoea
 
-How to build
---------------
-* Run `bower install` to get the Bootstrap and jQuery dependencies.
-* Run `npm install` to get remaining dependencies.
+Dev
+---
+* `cd app` and run `npm install` to get dependencies.
+* Load `/app` as unpacked extension.
+* Saved changes and refreshing the app on `chrome://extension`.
   * Running the `grunt` command will use jshint to check for any bugs in the project's code.
 
 This application ..
