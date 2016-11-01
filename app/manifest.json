@@ -13,8 +13,7 @@
   "offline_enabled": true,
   "permissions": [
     "serial",
-    "storage",
-    "fileSystem"
+    "storage"
   ],
   "app": {
     "background": {

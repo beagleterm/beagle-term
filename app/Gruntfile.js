@@ -16,9 +16,9 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-        files: ['js/index.js', 'js/background.js'],
-        tasks: ['jshint', 'jscs']
-      }
+      files: ['js/index.js', 'js/background.js'],
+      tasks: ['jshint', 'jscs']
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
