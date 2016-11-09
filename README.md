@@ -28,3 +28,7 @@ This application ..
 License
 ----------
 * BSD license.
+
+Community
+---------
+Join us in our [slack room](https://beagleterm.herokuapp.com/)
