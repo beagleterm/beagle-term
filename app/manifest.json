@@ -2,7 +2,7 @@
   "minimum_chrome_version": "25",
   "manifest_version": 2,
   "name": "Beagle Term",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "icons": {
     "128": "images/beagleterm-128.png",
     "48": "images/beagleterm-48.png",
