@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 $('#settingsModal').on('shown.bs.modal', function() {
   $('connectBtn').focus();
-})
+});
 
 /*
  *  Utility functions
