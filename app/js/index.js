@@ -7,7 +7,17 @@ var self;
 
 document.addEventListener('DOMContentLoaded', function() {
   $('#settingsModal').modal('show');
+  showWarningIfChromeOs();
 }, false);
+
+var showWarningIfChromeOs = function() {
+  var userAgent = navigator.userAgent;
+  // TODO: Use Rex.
+  if (userAgent.includes('CrOS') &&
+      userAgent.includes('54.0')) {
+    $('#warning-alert').show();
+  }
+};
 
 /*
  *  Utility functions
@@ -220,4 +230,10 @@ connectBtn.addEventListener('click', function(event) {
       }
     });
   });
+});
+
+// Closes the settings dialog
+var WarningSpan = document.querySelector('#warning-detail');
+WarningSpan.addEventListener('click', function(event) {
+  window.open('https://github.com/beagleterm/beagle-term/issues/78');
 });
