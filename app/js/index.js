@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
   $('#settingsModal').modal('show');
 }, false);
 
+$('#settingsModal').on('shown.bs.modal', function() {
+  $('connectBtn').focus();
+})
+
 /*
  *  Utility functions
  *
