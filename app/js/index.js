@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', function() {
 }, false);
 
 var showWarningIfChromeOs = function() {
-  var user_agent = navigator.userAgent;
+  var userAgent = navigator.userAgent;
   // TODO: Use Rex.
-  if (user_agent.includes("CrOS") &&
-      user_agent.includes("54.0")) {
+  if (userAgent.includes('CrOS') &&
+      userAgent.includes('54.0')) {
     $('#warning-alert').show();
   }
-}
+};
 
 /*
  *  Utility functions
@@ -235,5 +235,5 @@ connectBtn.addEventListener('click', function(event) {
 // Closes the settings dialog
 var WarningSpan = document.querySelector('#warning-detail');
 WarningSpan.addEventListener('click', function(event) {
-  window.open("https://github.com/beagleterm/beagle-term/issues/78");
+  window.open('https://github.com/beagleterm/beagle-term/issues/78');
 });
