@@ -15,13 +15,13 @@ DrawUi.prototype = {
    */
   OnHtermReady: function() {
     $('.modal-footer button').focus();
-    this.registerCloseBtnEvent_();
+    this.registerConnectBtnEvent_();
   },
 
   /**
    * @private
    */
-  registerCloseBtnEvent_: function() {
+  registerConnectBtnEvent_: function() {
     var connectBtn = document.querySelector('#connectBtn');
     connectBtn.addEventListener('click', function(event) {
       // Get the serial port (i.e. COM1, COM2, COM3, etc.)
