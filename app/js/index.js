@@ -5,8 +5,10 @@
 var inputOutput;
 var self;
 
+var UI_INSTANCE = new DrawUi();
+
 document.addEventListener('DOMContentLoaded', function() {
-  $('#settingsModal').modal('show');
+  UI_INSTANCE.ShowSettingsDialog();
   showWarningIfChromeOs();
 }, false);
 
@@ -155,84 +157,12 @@ window.onload = function() {
   t.decorate(document.querySelector('#terminal'));
 
   t.onTerminalReady = function() {
+    UI_INSTANCE.OnHtermReady();
     t.runCommandClass(Crosh, document.location.hash.substr(1));
     return true;
   };
 };
 
-// Closes the settings dialog
-var connectBtn = document.querySelector('#connectBtn');
-connectBtn.addEventListener('click', function(event) {
-  // If |inputOutput| is null, it means hterm is not ready yet.
-  if (!inputOutput) {
-    return;
-  }
-
-  // Get the serial port (i.e. COM1, COM2, COM3, etc.)
-  var portElement = document.querySelector('#portDropdown');
-  var port = portElement.options[portElement.selectedIndex].value;
-
-  // Get the baud rate (i.e. 9600, 38400, 57600, 115200, etc. )
-  var baudElement = document.querySelector('#bitrateDropdown');
-  var bitrate = Number(baudElement.options[baudElement.selectedIndex].value);
-
-  // Get the data bit (i.e. "seven" or "eight")
-  var databitElement = document.querySelector('#databitDropdown');
-  var databit = databitElement.options[databitElement.selectedIndex].value;
-
-  // Get the parity bit (i.e. "no", "odd", or "even")
-  var paritybitElement = document.querySelector('#parityDropdown');
-  var parity = paritybitElement.options[paritybitElement.selectedIndex].value;
-
-  // Get the stop bit (i.e. "one" or "two")
-  var stopbitElement = document.querySelector('#stopbitDropdown');
-  var stopbit = stopbitElement.options[stopbitElement.selectedIndex].value;
-
-  // Get the flow control value (i.e. true or false)
-  var fcElement = document.querySelector('#flowControlDropdown');
-  var flowControlValue = fcElement.options[fcElement.selectedIndex].value;
-  var flowControl = (flowControlValue === 'true');
-
-  // Format is ...
-  // settings = Object {bitrate: 14400, dataBits: "eight", parityBit: "odd",
-  // stopBits: "two", ctsFlowControl: true}
-  var settings = {
-    bitrate: bitrate,
-    dataBits: databit,
-    parityBit: parity,
-    stopBits: stopbit,
-    ctsFlowControl: flowControl
-  };
-
-  chrome.storage.local.set(settings);
-
-  chrome.serial.connect(port, {
-    'bitrate': settings.bitrate,
-    'dataBits': settings.dataBits,
-    'parityBit': settings.parityBit,
-    'stopBits': settings.stopBits,
-    'ctsFlowControl': settings.ctsFlowControl
-  }, function(openInfo) {
-    if (openInfo === undefined) {
-      inputOutput.println('Unable to connect to device with value' +
-          settings.toString());
-      // TODO: Open 'connection dialog' again.
-      return;
-    }
-
-    inputOutput.println('Device found on ' + port +
-              ' via Connection ID ' + openInfo.connectionId);
-    self.connectionId = openInfo.connectionId;
-    AddConnectedSerialId(openInfo.connectionId);
-    chrome.serial.onReceive.addListener(function(info) {
-      if (info && info.data) {
-        inputOutput.print(ab2str(info.data));
-      }
-    });
-  });
-});
-
-// Closes the settings dialog
 var WarningSpan = document.querySelector('#warning-detail');
 WarningSpan.addEventListener('click', function(event) {
   window.open('https://github.com/beagleterm/beagle-term/issues/78');
