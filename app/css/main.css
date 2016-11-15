@@ -6,3 +6,7 @@
   padding: 0;
   color: #B2B2B2;
 }
+
+#warning-alert {
+  display: none;
+}
