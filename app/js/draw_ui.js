@@ -81,7 +81,7 @@ DrawUi.prototype = {
         self.connectionId = openInfo.connectionId;
         AddConnectedSerialId(openInfo.connectionId);
         chrome.serial.onReceive.addListener(function(info) {
-          if (info && info.data) {
+          if (info && (info.connectionId == self.connectionId) && info.data) {
             inputOutput.print(ab2str(info.data));
           }
         });
